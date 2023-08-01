@@ -42,6 +42,8 @@ const BlogSection = () => {
     };
 
     getBlogPosts();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -86,6 +88,10 @@ const BlogSection = () => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "end",
+                    "&:hover": {
+                      opacity: 0.8,
+                      border: "2px solid #fe6c0a",
+                    },
                   }}
                 >
                   <Stack
@@ -95,7 +101,7 @@ const BlogSection = () => {
                       width: "100%",
                       height: 100,
                       backgroundColor: "rgba(0, 0, 0, 0.8)",
-                      pb: 2,
+                      mb: 2,
                       p: 1,
                     }}
                   >

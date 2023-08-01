@@ -42,6 +42,8 @@ const ProjectsSection = () => {
     };
 
     getBlogPosts();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -75,6 +77,7 @@ const ProjectsSection = () => {
               ))
             : blogList.map((blog, index) => (
                 <Box
+                  key={index}
                   sx={{
                     width: { xs: "100%", md: "45%", xl: "30%" },
                     height: 350,
@@ -86,6 +89,10 @@ const ProjectsSection = () => {
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "end",
+                    "&:hover": {
+                      opacity: 0.8,
+                      border: "2px solid #fe6c0a",
+                    },
                   }}
                 >
                   <Stack
@@ -95,7 +102,7 @@ const ProjectsSection = () => {
                       width: "100%",
                       height: 100,
                       backgroundColor: "rgba(0, 0, 0, 0.8)",
-                      pb: 2,
+                      mb: 2,
                       p: 1,
                     }}
                   >

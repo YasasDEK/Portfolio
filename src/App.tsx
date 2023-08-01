@@ -17,7 +17,7 @@ function App() {
   ];
 
   return (
-    <Box sx={{ p: 0, m: 0, background: "#18191d", minHeight: "100vh" }}>
+    <Box sx={{ background: "#18191d", minHeight: "100vh" }}>
       <RecoilRoot>
         <BrowserRouter>
           <Routes>

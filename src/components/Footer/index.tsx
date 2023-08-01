@@ -1,12 +1,8 @@
 import { Box, Stack, Typography } from "@mui/material";
-import { useRecoilValue } from "recoil";
-import { currentViewPageState } from "../../State/atom";
 
 const Footer = () => {
-  const isHome = useRecoilValue(currentViewPageState);
   return (
     <Box
-      zIndex={-1}
       width="100vw"
       height={70}
       sx={{
@@ -14,6 +10,7 @@ const Footer = () => {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        mt: 10,
       }}
     >
       <Stack

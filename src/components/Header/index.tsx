@@ -16,6 +16,7 @@ const Header = () => {
 
   return (
     <Box
+      zIndex={1}
       width="100vw"
       height={70}
       sx={{ position: "fixed", background: "#18191d" }}

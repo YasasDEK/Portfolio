@@ -1,16 +1,24 @@
 import { Box } from "@mui/material";
-import HomePageHeader from "./HomePageHeader";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { currentViewPageState } from "../../State/atom";
 import BlogSection from "../BlogSection";
 import ProjectsSection from "../ProjectsSection";
 import Footer from "../Footer";
 import Header from "../Header";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import HomePageContent from "./HomePageContent";
+
+const layoutStyle = {
+  display: "flex",
+  flexDirection: "column",
+  minHeight: "100vh",
+};
+
+const contentStyle = {
+  flex: "1 0 auto",
+};
 
 const HomePage = () => {
-  const location = useLocation();
   const [selectedPage, setSelectedPage] = useRecoilState(currentViewPageState);
 
   useEffect(() => {
@@ -28,16 +36,20 @@ const HomePage = () => {
   });
 
   return (
-    <Box>
-      <Header />
+    <Box sx={layoutStyle}>
+      <Box sx={contentStyle}>
+        <Header />
 
-      <Box sx={{ pt: 12 }}>
-        {selectedPage === "Home" && <HomePageHeader />}
-        {selectedPage === "Blog" && <BlogSection />}
-        {selectedPage === "Projects" && <ProjectsSection />}
+        <Box sx={{ pt: 12 }}>
+          {selectedPage === "Home" && <HomePageContent />}
+          {selectedPage === "Blog" && <BlogSection />}
+          {selectedPage === "Projects" && <ProjectsSection />}
+        </Box>
       </Box>
 
-      <Footer />
+      <Box sx={{ display: "block", bottom: 0 }}>
+        <Footer />
+      </Box>
     </Box>
   );
 };
