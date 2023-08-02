@@ -94,13 +94,13 @@ const RecentProjects = () => {
           >
             {loading
               ? Array.from({ length: 3 }).map((_, index) => (
-                  <BlogSkeleton key={index} index={index} />
+                  <BlogSkeleton home={true} key={index} index={index} />
                 ))
               : blogList.map((blog, index) => (
                   <Box
                     key={index}
                     sx={{
-                      width: { xs: "100%", md: "45%", xl: "30%" },
+                      width: { xs: "100%", md: "30%" },
                       height: 350,
                       mt: 4,
                       backgroundImage: 'url("/images/programmng-language.jpg")',
@@ -112,6 +112,8 @@ const RecentProjects = () => {
                       alignItems: "end",
                       "&:hover": {
                         opacity: 0.8,
+                        height: 346,
+                        width: { xs: "100%", md: "29.7%" },
                         border: "2px solid #fe6c0a",
                       },
                     }}
@@ -124,7 +126,7 @@ const RecentProjects = () => {
                         height: 100,
                         backgroundColor: "rgba(0, 0, 0, 0.8)",
                         mb: 2,
-                        p: 1,
+                        p: 2,
                       }}
                     >
                       <Typography

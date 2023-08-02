@@ -91,6 +91,8 @@ const ProjectsSection = () => {
                     alignItems: "end",
                     "&:hover": {
                       opacity: 0.8,
+                      height: 346,
+                      width: { xs: "100%", md: "44.7%", xl: "29.7%" },
                       border: "2px solid #fe6c0a",
                     },
                   }}
