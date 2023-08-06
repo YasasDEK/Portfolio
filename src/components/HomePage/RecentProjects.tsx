@@ -2,39 +2,40 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { query, collection, orderBy, limit, getDocs } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { database } from "../../config/firebase";
-import BlogSkeleton from "../BlogSection/BlogSkeleton";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { currentViewPageState } from "../../State/atom";
+import CustomSkeleton from "../Shared/customSkeleton";
 
-interface BlogList {
+interface ProjectsList {
   id: string;
   heading: string;
-  description: string;
-  blogDate: string;
+  shortDescription: string;
+  projectsDate: string;
 }
 
 const RecentProjects = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [blogList, setBlogList] = useState<BlogList[]>([]);
-  const blogListRef = collection(database, "blogPosts");
+  const [projectsList, setProjectsList] = useState<ProjectsList[]>([]);
+  const projectsListRef = collection(database, "projects");
   const setSelectedPage = useSetRecoilState(currentViewPageState);
 
   useEffect(() => {
     setLoading(true);
 
-    const getBlogPosts = async () => {
+    const getProjectsPosts = async () => {
       try {
-        const q = query(blogListRef, orderBy("blogDate", "desc"), limit(3));
-        const data = (await getDocs(q)).docs.map((doc) => ({
+        const projectsQuery = query(projectsListRef, orderBy("date"), limit(3));
+
+        const data = (await getDocs(projectsQuery)).docs.map((doc) => ({
           id: doc.id,
           heading: doc.data().heading,
-          description: doc.data().description,
-          blogDate: doc.data().blogDate,
+          shortDescription: doc.data().shortDescription,
+          projectsDate: doc.data().projectsDate,
         }));
 
-        setBlogList(data);
+        setProjectsList(data);
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -42,7 +43,7 @@ const RecentProjects = () => {
       }
     };
 
-    getBlogPosts();
+    getProjectsPosts();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -94,12 +95,14 @@ const RecentProjects = () => {
           >
             {loading
               ? Array.from({ length: 3 }).map((_, index) => (
-                  <BlogSkeleton home={true} key={index} index={index} />
+                  <CustomSkeleton home={true} key={index} index={index} />
                 ))
-              : blogList.map((blog, index) => (
+              : projectsList.map((project, index) => (
                   <Box
                     key={index}
+                    onClick={() => navigate(`/project?projectId=${project.id}`)}
                     sx={{
+                      cursor: "pointer",
                       width: { xs: "100%", md: "30%" },
                       height: 350,
                       mt: 4,
@@ -137,7 +140,7 @@ const RecentProjects = () => {
                           textAlign: "center",
                         }}
                       >
-                        {blog.heading}
+                        {project.heading}
                       </Typography>
 
                       <br />
@@ -151,7 +154,7 @@ const RecentProjects = () => {
                           textAlign: "center",
                         }}
                       >
-                        {blog.description}
+                        {project.shortDescription}
                       </Typography>
                     </Stack>
                   </Box>

@@ -1,39 +1,43 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { database } from "../../config/firebase";
 import { Box, Stack, Typography } from "@mui/material";
-import BlogSkeleton from "./ProjectsSkeleton";
 import { useSetRecoilState } from "recoil";
 import { currentViewPageState } from "../../State/atom";
+import CustomSkeleton from "../Shared/customSkeleton";
+import { useNavigate } from "react-router-dom";
 
-interface BlogList {
+interface ProjectsList {
   id: string;
   heading: string;
-  description: string;
-  blogDate: string;
+  shortDescription: string;
+  projectsDate: string;
 }
 
 const ProjectsSection = () => {
-  const [blogList, setBlogList] = useState<BlogList[]>([]);
-  const blogListRef = collection(database, "blogPosts");
+  const navigate = useNavigate();
+  const [projectsList, setProjectsList] = useState<ProjectsList[]>([]);
+  const projectsListRef = collection(database, "projects");
   const [loading, setLoading] = useState(false);
   const setSelectedPage = useSetRecoilState(currentViewPageState);
 
   useEffect(() => {
     setLoading(true);
 
-    const getBlogPosts = async () => {
+    const getProjectsPosts = async () => {
       setSelectedPage("Projects");
 
       try {
-        const data = (await getDocs(blogListRef)).docs.map((doc) => ({
+        const projectsQuery = query(projectsListRef, orderBy("date"));
+
+        const data = (await getDocs(projectsQuery)).docs.map((doc) => ({
           id: doc.id,
           heading: doc.data().heading,
-          description: doc.data().description,
-          blogDate: doc.data().date,
+          shortDescription: doc.data().shortDescription,
+          projectsDate: doc.data().date,
         }));
 
-        setBlogList(data);
+        setProjectsList(data);
 
         setLoading(false);
       } catch (error) {
@@ -41,7 +45,7 @@ const ProjectsSection = () => {
       }
     };
 
-    getBlogPosts();
+    getProjectsPosts();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -73,12 +77,14 @@ const ProjectsSection = () => {
         >
           {loading
             ? Array.from({ length: 6 }).map((_, index) => (
-                <BlogSkeleton key={index} index={index} />
+                <CustomSkeleton key={index} index={index} />
               ))
-            : blogList.map((blog, index) => (
+            : projectsList.map((project, index) => (
                 <Box
+                  onClick={() => navigate(`/project?projectId=${project.id}`)}
                   key={index}
                   sx={{
+                    cursor: "pointer",
                     width: { xs: "100%", md: "45%", xl: "30%" },
                     height: 350,
                     mt: 4,
@@ -116,7 +122,7 @@ const ProjectsSection = () => {
                         textAlign: "center",
                       }}
                     >
-                      {blog.heading}
+                      {project.heading}
                     </Typography>
 
                     <br />
@@ -130,7 +136,7 @@ const ProjectsSection = () => {
                         textAlign: "center",
                       }}
                     >
-                      {blog.description}
+                      {project.shortDescription}
                     </Typography>
                   </Stack>
                 </Box>

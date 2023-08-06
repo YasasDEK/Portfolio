@@ -12,8 +12,10 @@ interface IRoute {
 function App() {
   const appRoutes: IRoute[] = [
     { path: "/", element: <HomePage /> },
+    { path: "/blogs", element: <HomePage /> },
     { path: "/blog", element: <HomePage /> },
     { path: "/projects", element: <HomePage /> },
+    { path: "/project", element: <HomePage /> },
   ];
 
   return (

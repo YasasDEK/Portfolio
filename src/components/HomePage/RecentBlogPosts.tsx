@@ -2,7 +2,7 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import { query, collection, orderBy, limit, getDocs } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { database } from "../../config/firebase";
-import BlogSkeleton from "../BlogSection/BlogSkeleton";
+import BlogSkeleton from "../Shared/customSkeleton";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { currentViewPageState } from "../../State/atom";
@@ -26,8 +26,9 @@ const RecentBlogPosts = () => {
 
     const getBlogPosts = async () => {
       try {
-        const q = query(blogListRef, orderBy("blogDate", "desc"), limit(3));
-        const data = (await getDocs(q)).docs.map((doc) => ({
+        const blogQuery = query(blogListRef, orderBy("blogDate"), limit(3));
+
+        const data = (await getDocs(blogQuery)).docs.map((doc) => ({
           id: doc.id,
           heading: doc.data().heading,
           description: doc.data().description,
@@ -65,7 +66,7 @@ const RecentBlogPosts = () => {
             <Button
               variant="outlined"
               onClick={() => {
-                setSelectedPage("Blog");
+                setSelectedPage("Blogs");
                 navigate("/blog");
               }}
               sx={{
@@ -99,7 +100,9 @@ const RecentBlogPosts = () => {
               : blogList.map((blog, index) => (
                   <Box
                     key={index}
+                    onClick={() => navigate(`/blog?blogId=${blog.id}`)}
                     sx={{
+                      cursor: "pointer",
                       width: { xs: "100%", md: "30%" },
                       height: 350,
                       mt: 4,

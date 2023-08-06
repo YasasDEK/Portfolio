@@ -1,10 +1,11 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { database } from "../../config/firebase";
 import { Box, Stack, Typography } from "@mui/material";
-import BlogSkeleton from "./BlogSkeleton";
+import CustomSkeleton from "../Shared/customSkeleton";
 import { useSetRecoilState } from "recoil";
 import { currentViewPageState } from "../../State/atom";
+import { useNavigate } from "react-router-dom";
 
 interface BlogList {
   id: string;
@@ -14,6 +15,7 @@ interface BlogList {
 }
 
 const BlogSection = () => {
+  const navigate = useNavigate();
   const [blogList, setBlogList] = useState<BlogList[]>([]);
   const blogListRef = collection(database, "blogPosts");
   const [loading, setLoading] = useState(false);
@@ -23,10 +25,12 @@ const BlogSection = () => {
     setLoading(true);
 
     const getBlogPosts = async () => {
-      setSelectedPage("Blog");
+      setSelectedPage("Blogs");
 
       try {
-        const data = (await getDocs(blogListRef)).docs.map((doc) => ({
+        const blogQuery = query(blogListRef, orderBy("blogDate"));
+
+        const data = (await getDocs(blogQuery)).docs.map((doc) => ({
           id: doc.id,
           heading: doc.data().heading,
           description: doc.data().description,
@@ -73,11 +77,14 @@ const BlogSection = () => {
         >
           {loading
             ? Array.from({ length: 6 }).map((_, index) => (
-                <BlogSkeleton key={index} index={index} />
+                <CustomSkeleton key={index} index={index} />
               ))
             : blogList.map((blog, index) => (
                 <Box
+                  key={index}
+                  onClick={() => navigate(`/blog?blogId=${blog.id}`)}
                   sx={{
+                    cursor: "pointer",
                     width: { xs: "100%", md: "45%", xl: "30%" },
                     height: 350,
                     mt: 4,

@@ -5,7 +5,7 @@ interface Props {
   home?: boolean;
 }
 
-const BlogSkeleton = ({ index, home }: Props) => (
+const CustomSkeleton = ({ index, home }: Props) => (
   <Skeleton
     sx={{
       mt: {
@@ -19,4 +19,4 @@ const BlogSkeleton = ({ index, home }: Props) => (
   />
 );
 
-export default BlogSkeleton;
+export default CustomSkeleton;

@@ -2,11 +2,12 @@ import { Box, Button, Divider } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { currentViewPageState } from "../../State/atom";
 const Header = () => {
-  const pages = ["Projects", "Home", "Blog"];
+  const pages = ["Projects", "Home", "Blogs"];
   const [selectedPage, setSelectedPage] = useRecoilState(currentViewPageState);
 
-  const handlePageChange = (page: "Projects" | "Home" | "Blog") => {
+  const handlePageChange = (page: "Projects" | "Home" | "Blogs") => {
     setSelectedPage(page);
+
     window.history.pushState(
       {},
       "",
@@ -32,7 +33,7 @@ const Header = () => {
           <Button
             variant="text"
             onClick={() =>
-              handlePageChange(page as "Projects" | "Home" | "Blog")
+              handlePageChange(page as "Projects" | "Home" | "Blogs")
             }
             key={page}
             sx={{ my: 2, color: page === selectedPage ? "#fe6c0a" : "white" }}

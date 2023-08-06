@@ -7,6 +7,8 @@ import Footer from "../Footer";
 import Header from "../Header";
 import { useEffect } from "react";
 import HomePageContent from "./HomePageContent";
+import { useLocation } from "react-router-dom";
+import SingleProject from "../ProjectsSection/singleProject";
 
 const layoutStyle = {
   display: "flex",
@@ -20,6 +22,11 @@ const contentStyle = {
 
 const HomePage = () => {
   const [selectedPage, setSelectedPage] = useRecoilState(currentViewPageState);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+  const projectId = queryParams.get("projectId");
+  const blogId = queryParams.get("blogId");
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -28,10 +35,14 @@ const HomePage = () => {
 
     if (firstSection === "") {
       setSelectedPage("Home");
-    } else if (firstSection === "blog") {
-      setSelectedPage("Blog");
+    } else if (firstSection === "blogs") {
+      setSelectedPage("Blogs");
+    } else if (firstSection === "blog" && blogId) {
+      setSelectedPage("SingleBlog");
     } else if (firstSection === "projects") {
       setSelectedPage("Projects");
+    } else if (firstSection === "project" && projectId) {
+      setSelectedPage("SingleProject");
     }
   });
 
@@ -42,8 +53,10 @@ const HomePage = () => {
 
         <Box sx={{ pt: 12 }}>
           {selectedPage === "Home" && <HomePageContent />}
-          {selectedPage === "Blog" && <BlogSection />}
+          {selectedPage === "Blogs" && <BlogSection />}
+          {/* {selectedPage === "SingleBlog" && <BlogSection />} */}
           {selectedPage === "Projects" && <ProjectsSection />}
+          {selectedPage === "SingleProject" && <SingleProject />}
         </Box>
       </Box>
 
