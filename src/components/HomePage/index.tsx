@@ -8,7 +8,7 @@ import Header from "../Header";
 import { useEffect } from "react";
 import HomePageContent from "./HomePageContent";
 import { useLocation } from "react-router-dom";
-import SingleProject from "../ProjectsSection/singleProject";
+import SingleProject from "../ProjectsSection/SingleProject";
 
 const layoutStyle = {
   display: "flex",

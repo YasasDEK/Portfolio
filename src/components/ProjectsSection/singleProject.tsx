@@ -13,7 +13,9 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { database } from "../../config/firebase";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+import SinglePageSkeleton from "./SinglePageSkeleton";
 
+const smallBoxIndex = [1, 2, 5, 6];
 interface Project {
   date: string;
   description: string;
@@ -101,15 +103,17 @@ const SingleProject = () => {
 
   const photoGallery = (
     <>
-      <Typography
-        sx={{
-          mt: 4,
-          color: "#fe6c0a",
-          fontSize: 20,
-        }}
-      >
-        Project Gallery
-      </Typography>
+      {projectDetails?.images.length! > 0 && (
+        <Typography
+          sx={{
+            mt: 4,
+            color: "#fe6c0a",
+            fontSize: 20,
+          }}
+        >
+          Project Gallery
+        </Typography>
+      )}
 
       <Grid container spacing={2} sx={{ mt: 2 }}>
         {projectDetails?.images?.map((image, index) => (
@@ -117,7 +121,7 @@ const SingleProject = () => {
             key={index}
             item
             xs={12}
-            md={index === 1 || index === 2 ? 4 : 8}
+            md={smallBoxIndex.includes(index) ? 4 : 8}
           >
             <Box
               onClick={() => {
@@ -144,15 +148,17 @@ const SingleProject = () => {
 
   const trialsAndTruimps = (
     <>
-      <Typography
-        sx={{
-          mt: 4,
-          color: "#fe6c0a",
-          fontSize: 20,
-        }}
-      >
-        Trials and Triumphs
-      </Typography>
+      {projectDetails?.experience.length! > 0 && (
+        <Typography
+          sx={{
+            mt: 4,
+            color: "#fe6c0a",
+            fontSize: 20,
+          }}
+        >
+          Trials and Triumphs
+        </Typography>
+      )}
 
       {projectDetails?.experience?.map((detail, index) => (
         <Box
@@ -191,15 +197,17 @@ const SingleProject = () => {
 
   const mainFeatures = (
     <>
-      <Typography
-        sx={{
-          mt: 4,
-          color: "#fe6c0a",
-          fontSize: 20,
-        }}
-      >
-        Main Features
-      </Typography>
+      {projectDetails?.mainFeatures.length! && (
+        <Typography
+          sx={{
+            mt: 4,
+            color: "#fe6c0a",
+            fontSize: 20,
+          }}
+        >
+          Main Features
+        </Typography>
+      )}
 
       {projectDetails?.mainFeatures?.map((detail, index) => (
         <Box key={index} sx={{ mt: 2 }}>
@@ -256,6 +264,52 @@ const SingleProject = () => {
     </Stack>
   );
 
+  const singlePageContent = (
+    <>
+      <Box sx={{ width: "75vw", flexWrap: "wrap" }}>
+        <Box
+          sx={{
+            width: "100%",
+            height: 350,
+            backgroundImage: `url(${projectDetails?.themeImage})`,
+            backgroundColor: "white",
+            // backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            display: "flex",
+            borderRadius: 2,
+            justifyContent: "center",
+            alignItems: "end",
+          }}
+        />
+
+        <Typography
+          sx={{
+            mt: 2,
+            color: "white",
+            fontFamily: "'Bebas Neue', sans-serif",
+            fontSize: 40,
+          }}
+        >
+          {projectDetails?.heading}
+        </Typography>
+
+        {durationAndStack}
+
+        <Typography sx={{ mt: 4, color: "white", fontSize: 16 }}>
+          {projectDetails?.description}
+        </Typography>
+
+        {mainFeatures}
+
+        {trialsAndTruimps}
+
+        {photoGallery}
+      </Box>
+
+      {imageViewModal}
+    </>
+  );
+
   useEffect(() => {
     setLoading(true);
 
@@ -295,47 +349,7 @@ const SingleProject = () => {
   return (
     <Box sx={{ pb: 8, pt: 2 }}>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Box sx={{ width: "75vw", flexWrap: "wrap" }}>
-          <Box
-            sx={{
-              width: "100%",
-              height: 350,
-              backgroundImage: `url(${projectDetails?.themeImage})`,
-              // backgroundSize: "cover",
-              backgroundColor: "white",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-              display: "flex",
-              borderRadius: 2,
-              justifyContent: "center",
-              alignItems: "end",
-            }}
-          />
-          <Typography
-            sx={{
-              mt: 2,
-              color: "white",
-              fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: 40,
-            }}
-          >
-            {projectDetails?.heading}
-          </Typography>
-
-          {durationAndStack}
-
-          <Typography sx={{ mt: 4, color: "white", fontSize: 16 }}>
-            {projectDetails?.description}
-          </Typography>
-
-          {mainFeatures}
-
-          {trialsAndTruimps}
-
-          {photoGallery}
-        </Box>
-
-        {imageViewModal}
+        {loading ? <SinglePageSkeleton /> : singlePageContent}
       </Box>
     </Box>
   );
