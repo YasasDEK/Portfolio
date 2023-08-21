@@ -148,8 +148,7 @@ const RecentBlogPosts = () => {
                       <Typography
                         sx={{
                           mt: -2,
-                          fontFamily: "'Bebas Neue', sans-serif",
-                          fontSize: 18,
+                          fontSize: 14,
                           color: "white",
                           textAlign: "center",
                         }}

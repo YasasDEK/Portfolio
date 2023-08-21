@@ -42,6 +42,7 @@ const Header = () => {
           </Button>
         ))}
       </Box>
+
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Divider sx={{ width: "75vw", background: "white" }} />
       </Box>

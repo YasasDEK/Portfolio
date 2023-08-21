@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 interface ProjectsList {
   id: string;
+  themeImage: string;
   heading: string;
   shortDescription: string;
   projectsDate: string;
@@ -32,6 +33,7 @@ const ProjectsSection = () => {
 
         const data = (await getDocs(projectsQuery)).docs.map((doc) => ({
           id: doc.id,
+          themeImage: doc.data().themeImage,
           heading: doc.data().heading,
           shortDescription: doc.data().shortDescription,
           projectsDate: doc.data().date,
@@ -88,7 +90,7 @@ const ProjectsSection = () => {
                     width: { xs: "100%", md: "45%", xl: "30%" },
                     height: 350,
                     mt: 4,
-                    backgroundImage: 'url("/images/programmng-language.jpg")',
+                    backgroundImage: `url(${project?.themeImage})`,
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
@@ -130,8 +132,7 @@ const ProjectsSection = () => {
                     <Typography
                       sx={{
                         mt: -2,
-                        fontFamily: "'Bebas Neue', sans-serif",
-                        fontSize: 18,
+                        fontSize: 14,
                         color: "white",
                         textAlign: "center",
                       }}
