@@ -110,6 +110,7 @@ const RecentProjects = () => {
                       mt: 4,
                       backgroundImage: `url(${project?.themeImage})`,
                       backgroundSize: "cover",
+                      backgroundColor: "white",
                       backgroundRepeat: "no-repeat",
                       backgroundPosition: "center",
                       display: "flex",

@@ -18,7 +18,7 @@ import SinglePageSkeleton from "./SinglePageSkeleton";
 const smallBoxIndex = [1, 2, 5, 6];
 interface Project {
   date: string;
-  description: string;
+  description: string[];
   heading: string;
   startDate: string;
   endDate: string;
@@ -103,17 +103,15 @@ const SingleProject = () => {
 
   const photoGallery = (
     <>
-      {projectDetails?.images.length! > 0 && (
-        <Typography
-          sx={{
-            mt: 4,
-            color: "#fe6c0a",
-            fontSize: 20,
-          }}
-        >
-          Project Gallery
-        </Typography>
-      )}
+      <Typography
+        sx={{
+          mt: 4,
+          color: "#fe6c0a",
+          fontSize: 20,
+        }}
+      >
+        Project Gallery
+      </Typography>
 
       <Grid container spacing={2} sx={{ mt: 2 }}>
         {projectDetails?.images?.map((image, index) => (
@@ -148,17 +146,15 @@ const SingleProject = () => {
 
   const trialsAndTruimps = (
     <>
-      {projectDetails?.experience.length! > 0 && (
-        <Typography
-          sx={{
-            mt: 4,
-            color: "#fe6c0a",
-            fontSize: 20,
-          }}
-        >
-          Trials and Triumphs
-        </Typography>
-      )}
+      <Typography
+        sx={{
+          mt: 4,
+          color: "#fe6c0a",
+          fontSize: 20,
+        }}
+      >
+        Trials and Triumphs
+      </Typography>
 
       {projectDetails?.experience?.map((detail, index) => (
         <Box
@@ -197,17 +193,15 @@ const SingleProject = () => {
 
   const mainFeatures = (
     <>
-      {projectDetails?.mainFeatures.length! && (
-        <Typography
-          sx={{
-            mt: 4,
-            color: "#fe6c0a",
-            fontSize: 20,
-          }}
-        >
-          Main Features
-        </Typography>
-      )}
+      <Typography
+        sx={{
+          mt: 4,
+          color: "#fe6c0a",
+          fontSize: 20,
+        }}
+      >
+        Main Features
+      </Typography>
 
       {projectDetails?.mainFeatures?.map((detail, index) => (
         <Box key={index} sx={{ mt: 2 }}>
@@ -245,7 +239,6 @@ const SingleProject = () => {
 
       <Box
         sx={{
-          maxWidth: 250,
           backgroundColor: "#33393f",
           px: 1,
           py: 1,
@@ -273,7 +266,6 @@ const SingleProject = () => {
             height: 350,
             backgroundImage: `url(${projectDetails?.themeImage})`,
             backgroundColor: "white",
-            // backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
             display: "flex",
             borderRadius: 2,
@@ -296,14 +288,14 @@ const SingleProject = () => {
         {durationAndStack}
 
         <Typography sx={{ mt: 4, color: "white", fontSize: 16 }}>
-          {projectDetails?.description}
+          {projectDetails?.description.map((value) => value)}
         </Typography>
 
-        {mainFeatures}
+        {projectDetails?.mainFeatures.length! > 0 && mainFeatures}
 
-        {trialsAndTruimps}
+        {projectDetails?.experience.length! > 0 && trialsAndTruimps}
 
-        {photoGallery}
+        {projectDetails?.images.length! > 0 && photoGallery}
       </Box>
 
       {imageViewModal}
