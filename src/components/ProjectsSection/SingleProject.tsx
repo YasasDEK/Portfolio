@@ -7,6 +7,7 @@ import {
   Modal,
   IconButton,
   Tooltip,
+  Link,
 } from "@mui/material";
 import { getDoc, doc } from "firebase/firestore";
 import { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ import { useLocation } from "react-router-dom";
 import { database } from "../../config/firebase";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import SinglePageSkeleton from "./SinglePageSkeleton";
+import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 
 const smallBoxIndex = [1, 2, 5, 6];
 interface Project {
@@ -30,6 +32,7 @@ interface Project {
   }[];
   themeImage: string;
   mainFeatures: string[];
+  url?: string;
 }
 
 const SingleProject = () => {
@@ -49,12 +52,10 @@ const SingleProject = () => {
         setSelectedImage(null);
       }}
       sx={{
+        border: "0px !important",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        height: "80vh",
-        overflow: "auto",
-        p: 20,
         backdropFilter: "blur(8px)",
       }}
     >
@@ -92,9 +93,8 @@ const SingleProject = () => {
           src={selectedImage ?? ""}
           alt=""
           style={{
-            marginTop: 10,
             maxWidth: "100%",
-            maxHeight: "100%",
+            height: "80%",
           }}
         />
       </Stack>
@@ -227,6 +227,7 @@ const SingleProject = () => {
           backgroundColor: "#33393f",
           px: 1,
           py: 1,
+          height: 20,
           borderRadius: 2,
         }}
         display="flex"
@@ -242,6 +243,7 @@ const SingleProject = () => {
           backgroundColor: "#33393f",
           px: 1,
           py: 1,
+          height: 20,
           borderRadius: 2,
         }}
         display="flex"
@@ -254,6 +256,30 @@ const SingleProject = () => {
           ))}
         </Typography>
       </Box>
+
+      {projectDetails?.url && (
+        <Link
+          href={projectDetails?.url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Tooltip title="View the Project">
+            <IconButton
+              size="small"
+              sx={{
+                border: 2,
+                borderColor: "white",
+                "&:hover": {
+                  borderColor: "#fe6c0a",
+                  backgroundColor: "#fe6c0a",
+                },
+              }}
+            >
+              <RocketLaunchIcon sx={{ color: "white" }} />
+            </IconButton>
+          </Tooltip>
+        </Link>
+      )}
     </Stack>
   );
 
@@ -323,6 +349,7 @@ const SingleProject = () => {
             images: documentSnapshot.data()?.images,
             themeImage: documentSnapshot.data()?.themeImage,
             mainFeatures: documentSnapshot.data()?.mainFeatures,
+            url: documentSnapshot.data()?.url,
           });
 
           setLoading(false);
