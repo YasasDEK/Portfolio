@@ -227,11 +227,11 @@ const SingleProject = () => {
           backgroundColor: "#33393f",
           px: 1,
           py: 1,
-          height: 20,
           borderRadius: 2,
         }}
         display="flex"
         justifyContent="space-around"
+        alignItems="center"
       >
         <Typography sx={{ color: "#fe6c0a", fontSize: 12 }}>
           ⌛ {projectDetails?.startDate} - {projectDetails?.endDate}
@@ -243,10 +243,10 @@ const SingleProject = () => {
           backgroundColor: "#33393f",
           px: 1,
           py: 1,
-          height: 20,
           borderRadius: 2,
         }}
         display="flex"
+        alignItems="center"
         justifyContent="space-around"
       >
         <Typography sx={{ color: "#fe6c0a", fontSize: 12 }}>
