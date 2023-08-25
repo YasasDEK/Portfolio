@@ -329,7 +329,7 @@ const SingleBlog = () => {
           alignItems: "end",
         }}
       />
-      <Box sx={{ px: 20 }}>
+      <Box sx={{ px: { xs: 0, lg: 20 } }}>
         {headingSection}
 
         <Divider sx={{ backgroundColor: "#33393f" }} />
