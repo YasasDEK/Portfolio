@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { database } from "../../config/firebase";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
-import SinglePageSkeleton from "./SinglePageSkeleton";
+import SingleProjectPageSkeleton from "./SingleProjectPageSkeleton";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 
 const smallBoxIndex = [1, 2, 5, 6];
@@ -249,12 +249,12 @@ const SingleProject = () => {
         alignItems="center"
         justifyContent="space-around"
       >
-        <Typography sx={{ color: "#fe6c0a", fontSize: 12 }}>
-          🧑‍💻
-          {projectDetails?.techStack?.map((tech, index) => (
-            <> #{tech} </>
-          ))}
-        </Typography>
+        🧑‍💻
+        {projectDetails?.techStack?.map((tech, index) => (
+          <Typography key={index} sx={{ color: "#fe6c0a", fontSize: 12 }}>
+            #{tech}
+          </Typography>
+        ))}
       </Box>
 
       {projectDetails?.url && (
@@ -368,7 +368,7 @@ const SingleProject = () => {
   return (
     <Box sx={{ pb: 8, pt: 2 }}>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
-        {loading ? <SinglePageSkeleton /> : singlePageContent}
+        {loading ? <SingleProjectPageSkeleton /> : singlePageContent}
       </Box>
     </Box>
   );

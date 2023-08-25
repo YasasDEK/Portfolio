@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import HomePageContent from "./HomePageContent";
 import { useLocation } from "react-router-dom";
 import SingleProject from "../ProjectsSection/SingleProject";
+import SingleBlog from "../BlogSection/SingleBlog";
 
 const layoutStyle = {
   display: "flex",
@@ -54,7 +55,7 @@ const HomePage = () => {
         <Box sx={{ pt: 12 }}>
           {selectedPage === "Home" && <HomePageContent />}
           {selectedPage === "Blogs" && <BlogSection />}
-          {/* {selectedPage === "SingleBlog" && <BlogSection />} */}
+          {selectedPage === "SingleBlog" && <SingleBlog />}
           {selectedPage === "Projects" && <ProjectsSection />}
           {selectedPage === "SingleProject" && <SingleProject />}
         </Box>

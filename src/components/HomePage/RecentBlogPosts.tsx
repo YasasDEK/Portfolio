@@ -10,8 +10,9 @@ import { currentViewPageState } from "../../State/atom";
 interface BlogList {
   id: string;
   heading: string;
-  description: string;
+  shortDescription: string;
   blogDate: string;
+  image: string;
 }
 
 const RecentBlogPosts = () => {
@@ -31,8 +32,9 @@ const RecentBlogPosts = () => {
         const data = (await getDocs(blogQuery)).docs.map((doc) => ({
           id: doc.id,
           heading: doc.data().heading,
-          description: doc.data().description,
+          shortDescription: doc.data().shortDescription,
           blogDate: doc.data().blogDate,
+          image: doc.data().coverImage,
         }));
 
         setBlogList(data);
@@ -106,7 +108,7 @@ const RecentBlogPosts = () => {
                       width: { xs: "100%", md: "30%" },
                       height: 350,
                       mt: 4,
-                      backgroundImage: 'url("/images/programmng-language.jpg")',
+                      backgroundImage: `url(${blog?.image})`,
                       backgroundSize: "cover",
                       backgroundRepeat: "no-repeat",
                       backgroundPosition: "center",
@@ -153,7 +155,7 @@ const RecentBlogPosts = () => {
                           textAlign: "center",
                         }}
                       >
-                        {blog.description}
+                        {blog.shortDescription}
                       </Typography>
                     </Stack>
                   </Box>

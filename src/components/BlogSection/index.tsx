@@ -10,8 +10,9 @@ import { useNavigate } from "react-router-dom";
 interface BlogList {
   id: string;
   heading: string;
-  description: string;
+  shortDescription: string;
   blogDate: string;
+  image: string;
 }
 
 const BlogSection = () => {
@@ -33,8 +34,9 @@ const BlogSection = () => {
         const data = (await getDocs(blogQuery)).docs.map((doc) => ({
           id: doc.id,
           heading: doc.data().heading,
-          description: doc.data().description,
+          shortDescription: doc.data().shortDescription,
           blogDate: doc.data().date,
+          image: doc.data().coverImage,
         }));
 
         setBlogList(data);
@@ -88,7 +90,7 @@ const BlogSection = () => {
                     width: { xs: "100%", md: "45%", xl: "30%" },
                     height: 350,
                     mt: 4,
-                    backgroundImage: 'url("/images/programmng-language.jpg")',
+                    backgroundImage: `url(${blog?.image})`,
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",
@@ -136,7 +138,7 @@ const BlogSection = () => {
                         textAlign: "center",
                       }}
                     >
-                      {blog.description}
+                      {blog.shortDescription}
                     </Typography>
                   </Stack>
                 </Box>

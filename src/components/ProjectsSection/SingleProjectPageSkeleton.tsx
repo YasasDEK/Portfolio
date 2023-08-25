@@ -1,6 +1,6 @@
 import { Box, Skeleton, Stack } from "@mui/material";
 
-const SinglePageSkeleton = () => (
+const SingleProjectPageSkeleton = () => (
   <Box sx={{ width: "75vw", flexWrap: "wrap" }}>
     <Skeleton
       sx={{
@@ -36,7 +36,7 @@ const SinglePageSkeleton = () => (
     />
 
     {Array.from({ length: 4 }).map((_, index) => (
-      <Skeleton variant="text" sx={{ height: 30 }} />
+      <Skeleton key={index} variant="text" sx={{ height: 30 }} />
     ))}
 
     <Skeleton variant="text" sx={{ height: 30, width: "75%" }} />
@@ -46,11 +46,11 @@ const SinglePageSkeleton = () => (
     />
 
     {Array.from({ length: 4 }).map((_, index) => (
-      <Skeleton variant="text" sx={{ height: 30 }} />
+      <Skeleton key={index} variant="text" sx={{ height: 30 }} />
     ))}
 
     <Skeleton variant="text" sx={{ height: 30, width: "75%" }} />
   </Box>
 );
 
-export default SinglePageSkeleton;
+export default SingleProjectPageSkeleton;
