@@ -1,4 +1,5 @@
 import { Skeleton } from "@mui/material";
+import { skeletonColor } from "./pageHelpers";
 
 interface Props {
   index: number;
@@ -15,6 +16,7 @@ const CustomSkeleton = ({ index, home }: Props) => (
       },
       width: { xs: "100%", md: home ? "30%" : "45%", xl: "30%" },
       height: 550,
+     backgroundColor: skeletonColor,
     }}
   />
 );

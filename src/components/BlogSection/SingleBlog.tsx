@@ -10,7 +10,7 @@ import {
   Button,
   Alert,
 } from "@mui/material";
-import { getDoc, doc } from "firebase/firestore";
+import { getDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { database } from "../../config/firebase";
@@ -19,6 +19,9 @@ import MessageIcon from "@mui/icons-material/Message";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import CircularProgress from "@mui/material/CircularProgress";
+import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
+import CommentsDrawer from "./CommentsDrawer";
 
 interface Blog {
   blog: {
@@ -34,43 +37,48 @@ interface Blog {
   coverImage: string;
 }
 
+const formSchema = z.object({
+  name: z
+    .string()
+    .min(1, { message: "required" })
+    .max(50, { message: "large" }),
+  email: z
+    .string()
+    .min(1, { message: "required" })
+    .max(260, { message: "large" })
+    .email({ message: "invalid" }),
+  comment: z
+    .string()
+    .min(1, { message: "required" })
+    .max(500, { message: "large" }),
+});
+
+type FormSchema = z.infer<typeof formSchema>;
+
+const formDefaultValue = {
+  name: "",
+  email: "",
+  comment: "",
+};
+
 const SingleBlog = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const blogId = queryParams.get("blogId");
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitSuccessful, setSubmitSuccessful] = useState(false);
+  const [errorSubmit, setErrorSubmit] = useState(false);
+  const [commentsOpen, setCommentsOpen] = useState(false);
   const [blogDetails, setBlogDetails] = useState<Blog | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const formSchema = z.object({
-    name: z
-      .string()
-      .min(1, { message: "required" })
-      .max(50, { message: "large" }),
-    email: z
-      .string()
-      .min(1, { message: "required" })
-      .max(260, { message: "large" })
-      .email({ message: "invalid" }),
-    comment: z
-      .string()
-      .min(1, { message: "required" })
-      .max(500, { message: "large" }),
-  });
-
-  type FormSchema = z.infer<typeof formSchema>;
-
-  const formDefaultValue = {
-    name: "",
-    email: "",
-    comment: "",
-  };
-
-  const { handleSubmit, control, reset, formState } = useForm<FormSchema>({
-    resolver: zodResolver(formSchema),
-    mode: "onChange",
-    defaultValues: formDefaultValue,
-  });
+  const { handleSubmit, control, reset, formState, getValues } =
+    useForm<FormSchema>({
+      resolver: zodResolver(formSchema),
+      mode: "onChange",
+      defaultValues: formDefaultValue,
+    });
 
   const textFieldStyles = {
     mt: 0.5,
@@ -90,10 +98,34 @@ const SingleBlog = () => {
     },
   };
 
-  const onSubmit = () => {
-    console.log("submitted");
+  const resetAlerts = () => {
+    setSubmitSuccessful(false);
+    setErrorSubmit(false);
+  };
 
-    reset();
+  const onSubmit = async () => {
+    resetAlerts();
+
+    if (blogId) {
+      setSubmitting(true);
+      try {
+        const documentRef = doc(database, "blogPosts", blogId);
+
+        await updateDoc(documentRef, {
+          comments: arrayUnion(getValues()),
+        });
+
+        setSubmitSuccessful(true);
+
+        reset();
+
+        setTimeout(resetAlerts, 3000);
+      } catch (error) {
+        setErrorSubmit(true);
+      }
+    }
+
+    setSubmitting(false);
   };
 
   const getError = () => {
@@ -139,12 +171,19 @@ const SingleBlog = () => {
     });
   };
 
+  const handleDrawerClose = () => {
+    setCommentsOpen(false);
+  };
+
   const headingSection = (
-    <Stack
-      direction="row"
-      justifyContent="space-between"
-      alignItems="center"
-      sx={{ mt: 2 }}
+    <Box
+      sx={{
+        mt: 2,
+        display: "flex",
+        flexDirection: { xs: "column", md: "row" },
+        justifyContent: { xs: "start", md: "space-between" },
+        alignItems: "center",
+      }}
     >
       <Typography
         sx={{
@@ -156,9 +195,23 @@ const SingleBlog = () => {
         {blogDetails?.heading}
       </Typography>
 
-      <Stack sx={{ p: 0, m: 0 }}>
-        <Typography sx={{ color: "white", fontSize: 14, justifyItem: "end" }}>
-          📆 {blogDetails?.blogDate}
+      <Box
+        sx={{
+          p: 0,
+          m: 0,
+          display: "flex",
+          flexDirection: { xs: "row", md: "column" },
+        }}
+      >
+        <Typography
+          sx={{
+            color: "white",
+            fontSize: 14,
+            justifyItem: "end",
+            mb: { xs: 2, md: 0 },
+          }}
+        >
+          📆{blogDetails?.blogDate}
         </Typography>
 
         <Typography
@@ -166,12 +219,46 @@ const SingleBlog = () => {
             color: "white",
             fontSize: 14,
             display: "flex",
-            justifyContent: "end",
+            justifyContent: { xs: "start", md: "end" },
           }}
         >
-          ⏳ {blogDetails?.readTime}
+          ⏳{blogDetails?.readTime} read
         </Typography>
-      </Stack>
+      </Box>
+    </Box>
+  );
+
+  const iconButtonSection = (
+    <Stack direction="row" alignItems="top" spacing={1}>
+      <Tooltip title="Add a comment" placement="top" sx={{ p: 0 }}>
+        <IconButton onClick={() => scrollBottom(scrollRef)}>
+          <MessageIcon
+            sx={{
+              color: "white",
+              "&:hover": {
+                color: "#fe6c0a",
+              },
+            }}
+          />
+        </IconButton>
+      </Tooltip>
+
+      <Tooltip
+        title="Read previous comments"
+        placement="top"
+        sx={{ p: 0, pb: 0.5 }}
+      >
+        <IconButton onClick={() => setCommentsOpen(true)}>
+          <MarkEmailReadIcon
+            sx={{
+              color: "white",
+              "&:hover": {
+                color: "#fe6c0a",
+              },
+            }}
+          />
+        </IconButton>
+      </Tooltip>
     </Stack>
   );
 
@@ -184,22 +271,24 @@ const SingleBlog = () => {
         alignItems: "center",
       }}
     >
-      <Typography sx={{ color: "white", fontSize: 18 }}>
-        {blogDetails?.shortDescription}
-      </Typography>
+      <Box>
+        <Typography sx={{ color: "white", fontSize: 18 }}>
+          {blogDetails?.shortDescription}
+        </Typography>
 
-      <Tooltip title="Add a comment" placement="left" sx={{ p: 0 }}>
-        <IconButton onClick={() => scrollBottom(scrollRef)}>
-          <MessageIcon
-            sx={{
-              color: "white",
-              "&:hover": {
-                color: "#fe6c0a",
-              },
-            }}
-          />
-        </IconButton>
-      </Tooltip>
+        <Stack direction="row">
+          {blogDetails?.tags.map((tag, index) => (
+            <Typography
+              key={index}
+              sx={{ color: "#fe6c0a", fontSize: 14, pr: 0.5 }}
+            >
+              #{tag}
+            </Typography>
+          ))}
+        </Stack>
+      </Box>
+
+      {iconButtonSection}
     </Box>
   );
 
@@ -294,24 +383,53 @@ const SingleBlog = () => {
         >
           <Box>{getError()}</Box>
 
+          {!getError() && submitSuccessful && (
+            <Alert severity="success">Thank you for your comments!</Alert>
+          )}
+
+          {errorSubmit && (
+            <Alert severity="success">
+              An unexpected error occured! Please try again!
+            </Alert>
+          )}
           <Box>
             <Button
               variant="contained"
               type="submit"
+              disabled={submitting}
               sx={{
                 width: { xs: "100%", lg: 180 },
                 backgroundColor: "#fe6c0a",
-                "&:hover": { background: "#fe6c0a", opacity: 0.8 },
                 fontFamily: "'Bebas Neue', sans-serif",
                 fontSize: 20,
+                "&:hover": { background: "#fe6c0a", opacity: 0.8 },
+                "&:disabled": {
+                  backgroundColor: "#fe6c0a",
+                  color: "white",
+                  opacity: 0.5,
+                },
               }}
             >
               Submit
+              {submitting && (
+                <CircularProgress sx={{ color: "white", ml: 1 }} size={20} />
+              )}
             </Button>
           </Box>
         </Box>
       </form>
     </Box>
+  );
+
+  const commentsHeaderSection = (
+    <FormLabel
+      sx={{
+        fontFamily: "'Bebas Neue', sans-serif",
+        fontSize: 25,
+      }}
+    >
+      💭💡What are your thoughts?
+    </FormLabel>
   );
 
   const singlePageContent = (
@@ -350,19 +468,18 @@ const SingleBlog = () => {
               borderRadius: 2,
             }}
           >
-            <FormLabel
-              sx={{
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: 25,
-              }}
-            >
-              💭💡What are your thoughts?
-            </FormLabel>
+            {commentsHeaderSection}
 
             {commentFormSection}
           </Stack>
         </Box>
       </Box>
+
+      <CommentsDrawer
+        open={commentsOpen}
+        handleClose={handleDrawerClose}
+        blogId={blogId!}
+      />
     </Box>
   );
 

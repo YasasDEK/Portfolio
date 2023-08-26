@@ -242,7 +242,7 @@ const SingleProject = () => {
         sx={{
           backgroundColor: "#33393f",
           px: 1,
-          py: 1,
+          pl: 1.5,
           borderRadius: 2,
         }}
         display="flex"
@@ -251,7 +251,10 @@ const SingleProject = () => {
       >
         🧑‍💻
         {projectDetails?.techStack?.map((tech, index) => (
-          <Typography key={index} sx={{ color: "#fe6c0a", fontSize: 12 }}>
+          <Typography
+            key={index}
+            sx={{ color: "#fe6c0a", fontSize: 12, pr: 0.5 }}
+          >
             #{tech}
           </Typography>
         ))}
