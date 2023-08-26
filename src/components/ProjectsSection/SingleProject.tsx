@@ -220,14 +220,21 @@ const SingleProject = () => {
   );
 
   const durationAndStack = (
-    <Stack direction="row" spacing={2} sx={{ mt: 2 }}>
+    <Box
+      sx={{
+        mt: 2,
+        display: "flex",
+        flexDirection: { xs: "column", md: "row", gap: 4 },
+      }}
+    >
       <Box
         sx={{
-          width: 160,
           backgroundColor: "#33393f",
           px: 1,
           py: 1,
           borderRadius: 2,
+          mr: { xs: 0, md: 1 },
+          flexWrap: "wrap",
         }}
         display="flex"
         justifyContent="space-around"
@@ -238,52 +245,60 @@ const SingleProject = () => {
         </Typography>
       </Box>
 
-      <Box
+      <Stack
+        direction="row"
+        spacing={1}
         sx={{
           backgroundColor: "#33393f",
           px: 1,
-          pl: 1.5,
+          py: 1,
+          mr: { xs: 0, md: 1 },
           borderRadius: 2,
+          flexWrap: "wrap",
         }}
         display="flex"
+        justifyContent="center"
         alignItems="center"
-        justifyContent="space-around"
       >
         🧑‍💻
         {projectDetails?.techStack?.map((tech, index) => (
-          <Typography
-            key={index}
-            sx={{ color: "#fe6c0a", fontSize: 12, pr: 0.5 }}
-          >
+          <Typography key={index} sx={{ color: "#fe6c0a", fontSize: 12 }}>
             #{tech}
           </Typography>
         ))}
-      </Box>
+      </Stack>
 
       {projectDetails?.url && (
-        <Link
-          href={projectDetails?.url}
-          target="_blank"
-          rel="noopener noreferrer"
+        <Box
+          sx={{ mt: { xs: 2, md: 0 } }}
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
         >
-          <Tooltip title="View the Project">
-            <IconButton
-              size="small"
-              sx={{
-                border: 2,
-                borderColor: "white",
-                "&:hover": {
-                  borderColor: "#fe6c0a",
-                  backgroundColor: "#fe6c0a",
-                },
-              }}
-            >
-              <RocketLaunchIcon sx={{ color: "white" }} />
-            </IconButton>
-          </Tooltip>
-        </Link>
+          <Link
+            href={projectDetails?.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Tooltip title="View the Project">
+              <IconButton
+                size="small"
+                sx={{
+                  border: 2,
+                  borderColor: "white",
+                  "&:hover": {
+                    borderColor: "#fe6c0a",
+                    backgroundColor: "#fe6c0a",
+                  },
+                }}
+              >
+                <RocketLaunchIcon sx={{ color: "white" }} />
+              </IconButton>
+            </Tooltip>
+          </Link>
+        </Box>
       )}
-    </Stack>
+    </Box>
   );
 
   const singlePageContent = (
@@ -309,6 +324,7 @@ const SingleProject = () => {
             color: "white",
             fontFamily: "'Bebas Neue', sans-serif",
             fontSize: 40,
+            flexWrap: "wrap",
           }}
         >
           {projectDetails?.heading}
@@ -316,7 +332,7 @@ const SingleProject = () => {
 
         {durationAndStack}
 
-        <Typography sx={{ mt: 4, color: "white", fontSize: 16 }}>
+        <Typography sx={{ mt: { xs: 2, md: 4 }, color: "white", fontSize: 16 }}>
           {projectDetails?.description.map((value) => value)}
         </Typography>
 

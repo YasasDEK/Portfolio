@@ -33,6 +33,17 @@ const HomePageHeader = () => {
         <Stack
           sx={{ display: "flex", justifyContent: "center", width: "100%" }}
         >
+          <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
+            <Avatar
+              src={profilePicture[0]}
+              sx={{
+                width: 150,
+                height: 150,
+                display: { xs: "flex", md: "none" },
+              }}
+            />
+          </Box>
+
           <Typography
             sx={{
               fontSize: 50,

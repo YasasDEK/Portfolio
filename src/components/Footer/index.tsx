@@ -11,6 +11,7 @@ const Footer = () => {
         alignItems: "center",
         justifyContent: "center",
         mt: 10,
+        flexWrap: "wrap",
       }}
     >
       <Stack

@@ -87,7 +87,8 @@ const CommentsDrawer = ({ open, handleClose, blogId }: Props) => {
               xl: "30vw",
             },
             p: 2,
-            minHeight: "100%",
+            height: "100%",
+            overflow: "auto",
           }}
         >
           <Stack
