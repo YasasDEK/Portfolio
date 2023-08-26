@@ -53,8 +53,6 @@ const CommentsDrawer = ({ open, handleClose, blogId }: Props) => {
 
           setComments(documentSnapshot.data()?.comments);
 
-          console.log(documentSnapshot.data()?.comments);
-
           setLoading(false);
         } catch (error) {
           console.log(error);

@@ -181,7 +181,7 @@ const SingleBlog = () => {
         mt: 2,
         display: "flex",
         flexDirection: { xs: "column", md: "row" },
-        justifyContent: { xs: "start", md: "space-between" },
+        justifyContent: { xs: "center", md: "space-between" },
         alignItems: "center",
       }}
     >
@@ -190,6 +190,7 @@ const SingleBlog = () => {
           color: "white",
           fontFamily: "'Bebas Neue', sans-serif",
           fontSize: 40,
+          textAlign: { xs: "center", md: "start" },
         }}
       >
         {blogDetails?.heading}
@@ -266,6 +267,7 @@ const SingleBlog = () => {
     <Box
       sx={{
         py: 2,
+        gap: 4,
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",

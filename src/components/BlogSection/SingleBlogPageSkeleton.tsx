@@ -35,18 +35,26 @@ const SingleBlogPageSkeleton = () => (
 
         <Box
           sx={{
-            p: 0,
-            m: 0,
             display: "flex",
             flexDirection: { xs: "row", md: "column" },
           }}
         >
           <Skeleton
             variant="text"
-            sx={{ width: 150, backgroundColor: skeletonColor }}
+            sx={{
+              width: { xs: "20vw", md: "10vw" },
+              backgroundColor: skeletonColor,
+            }}
           />
 
-          <Skeleton variant="text" sx={{ backgroundColor: skeletonColor }} />
+          <Skeleton
+            variant="text"
+            sx={{
+              ml: { xs: 2, md: 0 },
+              width: { xs: "20vw", md: "10vw" },
+              backgroundColor: skeletonColor,
+            }}
+          />
         </Box>
       </Box>
 
@@ -60,11 +68,11 @@ const SingleBlogPageSkeleton = () => (
       >
         <Stack direction="column">
           <Skeleton
-            sx={{ height: 50, width: 800, backgroundColor: skeletonColor }}
+            sx={{ height: 50, width: "30vw", backgroundColor: skeletonColor }}
           />
 
           <Skeleton
-            sx={{ height: 30, width: 200, backgroundColor: skeletonColor }}
+            sx={{ height: 30, width: "25vw", backgroundColor: skeletonColor }}
           />
         </Stack>
 
@@ -79,8 +87,6 @@ const SingleBlogPageSkeleton = () => (
             sx={{ height: 30, width: 30, backgroundColor: skeletonColor }}
           />
         </Stack>
-
-        {/* {iconButtonSection} */}
       </Box>
 
       {Array.from({ length: 4 }).map((_, index) => (
