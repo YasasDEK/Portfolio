@@ -22,11 +22,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import CircularProgress from "@mui/material/CircularProgress";
 import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
 import CommentsDrawer from "./CommentsDrawer";
-
 interface Blog {
   blog: {
-    paragraph: string;
     subHeading: string;
+    paragraph: string[];
   }[];
   blogDate: string;
   description: string;
@@ -173,6 +172,22 @@ const SingleBlog = () => {
 
   const handleDrawerClose = () => {
     setCommentsOpen(false);
+  };
+
+  const getText = (para: string) => {
+    if (para.includes("<code>")) {
+      const codeText = para.replace(/<\/?code>/g, "");
+
+      return (
+        <Box
+          sx={{ backgroundColor: "#696969", px: 2, py: 1, borderRadius: 0.5 }}
+        >
+          <Typography>{codeText}</Typography>
+        </Box>
+      );
+    } else {
+      return <Typography>{para}</Typography>;
+    }
   };
 
   const headingSection = (
@@ -434,6 +449,33 @@ const SingleBlog = () => {
     </FormLabel>
   );
 
+  const subsectionArea = (
+    <Stack spacing={4} sx={{ mt: 2 }}>
+      {blogDetails?.blog.map((data, index) => (
+        <Box key={index}>
+          <Typography
+            sx={{
+              color: "#fe6c0a",
+              fontFamily: "'Bebas Neue', sans-serif",
+              fontSize: 24,
+            }}
+          >
+            {data.subHeading}
+          </Typography>
+
+          {data.paragraph.map((para, subIndex) => (
+            <Box
+              key={subIndex}
+              sx={{ color: "white", mt: subIndex === 0 ? 0 : 2 }}
+            >
+              {getText(para)}
+            </Box>
+          ))}
+        </Box>
+      ))}
+    </Stack>
+  );
+
   const singlePageContent = (
     <Box sx={{ width: "75vw", flexWrap: "wrap" }}>
       <Box
@@ -461,6 +503,8 @@ const SingleBlog = () => {
         <Typography sx={{ mt: 4, color: "white", fontSize: 16 }}>
           {blogDetails?.description}
         </Typography>
+
+        {subsectionArea}
 
         <Box sx={{ py: 4, px: { sm: 0, lg: 8 } }}>
           <Stack
