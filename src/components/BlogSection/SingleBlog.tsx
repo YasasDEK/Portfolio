@@ -22,6 +22,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import CircularProgress from "@mui/material/CircularProgress";
 import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
 import CommentsDrawer from "./CommentsDrawer";
+import DownloadIcon from "@mui/icons-material/Download";
+
 interface Blog {
   blog: {
     subHeading: string;
@@ -176,13 +178,33 @@ const SingleBlog = () => {
 
   const getText = (para: string) => {
     if (para.includes("<code>")) {
-      const codeText = para.replace(/<\/?code>/g, "");
+      const imageUrl = para.replace(/<\/?code>/g, "");
 
       return (
         <Box
-          sx={{ backgroundColor: "#696969", px: 2, py: 1, borderRadius: 0.5 }}
+          sx={{
+            py: 2,
+            borderRadius: 0.5,
+            display: "flex",
+            justifyContent: "center",
+          }}
         >
-          <Typography>{codeText}</Typography>
+          <Stack>
+            {/* <Tooltip title="Download" placement="top" sx={{ p: 0 }}>
+              <IconButton>
+                <DownloadIcon
+                  sx={{
+                    color: "white",
+                    "&:hover": {
+                      color: "#fe6c0a",
+                    },
+                  }}
+                />
+              </IconButton>
+            </Tooltip> */}
+
+            <img style={{ maxWidth: "80vw" }} src={imageUrl} />
+          </Stack>
         </Box>
       );
     } else {
