@@ -22,7 +22,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import CircularProgress from "@mui/material/CircularProgress";
 import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
 import CommentsDrawer from "./CommentsDrawer";
-import DownloadIcon from "@mui/icons-material/Download";
 
 interface Blog {
   blog: {
@@ -178,34 +177,22 @@ const SingleBlog = () => {
 
   const getText = (para: string) => {
     if (para.includes("<code>")) {
-      const imageUrl = para.replace(/<\/?code>/g, "");
+      const sandBoxUrl = para.replace(/<\/?code>/g, "");
 
       return (
-        <Box
-          sx={{
-            py: 2,
-            borderRadius: 0.5,
-            display: "flex",
-            justifyContent: "center",
+        <iframe
+          src={sandBoxUrl}
+          style={{
+            width: "100%",
+            height: "500px",
+            border: 0,
+            borderRadius: 4,
+            overflow: "hidden",
           }}
-        >
-          <Stack>
-            {/* <Tooltip title="Download" placement="top" sx={{ p: 0 }}>
-              <IconButton>
-                <DownloadIcon
-                  sx={{
-                    color: "white",
-                    "&:hover": {
-                      color: "#fe6c0a",
-                    },
-                  }}
-                />
-              </IconButton>
-            </Tooltip> */}
-
-            <img style={{ maxWidth: "80vw" }} src={imageUrl} />
-          </Stack>
-        </Box>
+          title={blogDetails?.heading}
+          allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+          sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+        />
       );
     } else {
       return <Typography>{para}</Typography>;
@@ -528,7 +515,7 @@ const SingleBlog = () => {
 
         {subsectionArea}
 
-        <Box sx={{ py: 4, px: { sm: 0, lg: 8 } }}>
+        <Box sx={{ pt: 8, px: { sm: 0, lg: 8 } }}>
           <Stack
             sx={{
               p: 4,
@@ -588,7 +575,7 @@ const SingleBlog = () => {
   }, []);
 
   return (
-    <Box sx={{ pb: 8, pt: 2 }}>
+    <Box sx={{ pt: 2 }}>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         {loading ? <SingleBlogPageSkeleton /> : singlePageContent}
       </Box>
