@@ -302,7 +302,9 @@ const SingleBlog = () => {
           {blogDetails?.shortDescription}
         </Typography>
 
-        <Stack direction="row">
+        <Box
+          sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}
+        >
           {blogDetails?.tags.map((tag, index) => (
             <Typography
               key={index}
@@ -311,7 +313,7 @@ const SingleBlog = () => {
               #{tag}
             </Typography>
           ))}
-        </Stack>
+        </Box>
       </Box>
 
       {iconButtonSection}

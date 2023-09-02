@@ -114,49 +114,80 @@ const CommentsDrawer = ({ open, handleClose, blogId }: Props) => {
           <Divider sx={{ mt: 1, borderColor: "white" }} />
 
           <Stack spacing={2} sx={{ mt: 2 }}>
-            {comments.map((comment, index) => (
-              <Card
-                key={index}
-                sx={{
-                  p: 2,
-                  background: "#18191d",
-                  boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.8)",
-                }}
-              >
-                <Box
+            {comments.length > 0 ? (
+              comments.map((comment, index) => (
+                <Card
+                  key={index}
                   sx={{
-                    flexDirection: "row",
-                    display: "flex",
-                    gap: 2,
-                    alignItems: "center",
+                    p: 2,
+                    background: "#18191d",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.8)",
                   }}
                 >
-                  <Avatar
-                    sx={{ width: 50, height: 50 }}
-                    src={`${process.env.PUBLIC_URL}/images/user.jpg`}
-                  />
+                  <Box
+                    sx={{
+                      flexDirection: "row",
+                      display: "flex",
+                      gap: 2,
+                      alignItems: "center",
+                    }}
+                  >
+                    <Avatar
+                      sx={{ width: 50, height: 50 }}
+                      src={`${process.env.PUBLIC_URL}/images/user.jpg`}
+                    />
 
-                  <Box>
-                    <Typography
-                      sx={{ fontWeight: "bold", fontSize: 16, color: "white" }}
-                    >
-                      {capitalizeWords(comment.name)}
-                    </Typography>
+                    <Box>
+                      <Typography
+                        sx={{
+                          fontWeight: "bold",
+                          fontSize: 16,
+                          color: "white",
+                        }}
+                      >
+                        {capitalizeWords(comment.name)}
+                      </Typography>
 
-                    <Typography sx={{ fontSize: 12, color: "white" }}>
-                      {comment.email}
-                    </Typography>
+                      <Typography sx={{ fontSize: 12, color: "white" }}>
+                        {comment.email}
+                      </Typography>
+                    </Box>
                   </Box>
-                </Box>
 
-                <Divider sx={{ mt: 2, mb: 1, borderColor: "white" }} />
+                  <Divider sx={{ mt: 2, mb: 1, borderColor: "white" }} />
 
-                <Typography sx={{ fontSize: 14, color: "white" }}>
-                  {comment.comment.charAt(0).toUpperCase() +
-                    comment.comment.slice(1)}
+                  <Typography sx={{ fontSize: 14, color: "white" }}>
+                    {comment.comment.charAt(0).toUpperCase() +
+                      comment.comment.slice(1)}
+                  </Typography>
+                </Card>
+              ))
+            ) : (
+              <Stack
+                sx={{
+                  height: "80vh",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  width="100vw"
+                  src={`${process.env.PUBLIC_URL}/images/addImage.gif`}
+                />
+                <Typography
+                  sx={{
+                    color: "white",
+                    fontSize: 18,
+                    fontWeight: "bold",
+                    mt: 4,
+                    textAlign: "center",
+                  }}
+                >
+                  Hurry!!! Be the first one to add a comment 😍
                 </Typography>
-              </Card>
-            ))}
+              </Stack>
+            )}
           </Stack>
         </Box>
       )}
