@@ -1,7 +1,11 @@
-import { Box, Button, Divider } from "@mui/material";
+import { Box, Button, Divider, Stack, Typography } from "@mui/material";
 import { useRecoilState } from "recoil";
 import { currentViewPageState } from "../../State/atom";
+import { Link, useNavigate } from "react-router-dom";
+import EmailIcon from "@mui/icons-material/Email";
+
 const Header = () => {
+  const navigate = useNavigate();
   const pages = ["Projects", "Home", "Blogs"];
   const [selectedPage, setSelectedPage] = useRecoilState(currentViewPageState);
 
@@ -16,35 +20,93 @@ const Header = () => {
   };
 
   return (
-    <Box
-      zIndex={1}
-      width="100vw"
-      height={70}
-      sx={{ position: "fixed", background: "#18191d" }}
-    >
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
       <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          background: "#18191d",
-        }}
+        zIndex={1}
+        height={70}
+        sx={{ position: "fixed", background: "#18191d" }}
       >
-        {pages.map((page) => (
-          <Button
-            variant="text"
-            onClick={() =>
-              handlePageChange(page as "Projects" | "Home" | "Blogs")
-            }
-            key={page}
-            sx={{ my: 2, color: page === selectedPage ? "#fe6c0a" : "white" }}
+        <Box sx={{ width: "75vw", flexWrap: "wrap" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              background: "#18191d",
+              flexDirection: { xs: "column", md: "row" },
+            }}
           >
-            {page}
-          </Button>
-        ))}
-      </Box>
+            <Button onClick={() => navigate("/")}>
+              <Stack direction="row" alignItems="center" spacing={0.5}>
+                <Box sx={{ pt: 0.5 }}>
+                  <img
+                    width={40}
+                    alt="logo"
+                    src={`${process.env.PUBLIC_URL}/images/logoCircle.png`}
+                  />
+                </Box>
 
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Divider sx={{ width: "75vw", background: "white" }} />
+                <Typography
+                  sx={{
+                    color: "white",
+                    fontFamily: "'Bebas Neue', sans-serif",
+                    fontSize: 25,
+                  }}
+                >
+                  Yasas.EK
+                </Typography>
+              </Stack>
+            </Button>
+
+            <Box sx={{ mt: { xs: -1, md: 0 } }}>
+              {pages.map((page) => (
+                <Button
+                  variant="text"
+                  onClick={() =>
+                    handlePageChange(page as "Projects" | "Home" | "Blogs")
+                  }
+                  key={page}
+                  sx={{
+                    color: page === selectedPage ? "#fe6c0a" : "white",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {page}
+                </Button>
+              ))}
+            </Box>
+
+            <Box sx={{ mb: { xs: 1, md: 0 } }}>
+              <Link
+                to="mailto:ydilshan.ek@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button
+                  variant="outlined"
+                  sx={{
+                    border: "1px solid #fe6c0a",
+                    color: "#fe6c0a",
+                    "&:hover": {
+                      border: "1px solid #fe6c0a",
+                      opacity: 0.8,
+                    },
+                  }}
+                >
+                  <Typography sx={{ fontSize: 12, mr: 1 }}>
+                    Drop your ideas
+                  </Typography>
+
+                  <EmailIcon />
+                </Button>
+              </Link>
+            </Box>
+          </Box>
+
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Divider sx={{ width: "75vw", background: "white" }} />
+          </Box>
+        </Box>
       </Box>
     </Box>
   );

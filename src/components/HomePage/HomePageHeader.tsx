@@ -20,7 +20,9 @@ const HomePageHeader = () => {
   }, []);
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center" }}>
+    <Box
+      sx={{ display: "flex", justifyContent: "center", mt: { xs: 2, md: 0 } }}
+    >
       <Stack
         direction={{ xs: "column", md: "row" }}
         sx={{

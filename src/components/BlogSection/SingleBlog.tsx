@@ -194,6 +194,12 @@ const SingleBlog = () => {
           sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
         />
       );
+    }
+
+    if (para.includes("<bold>")) {
+      const boldText = para.replace(/<\/?bold>/g, "");
+
+      return <Typography sx={{ fontWeight: "bold" }}>{boldText}</Typography>;
     } else {
       return <Typography>{para}</Typography>;
     }

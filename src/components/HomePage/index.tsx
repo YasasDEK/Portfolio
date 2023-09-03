@@ -52,7 +52,7 @@ const HomePage = () => {
       <Box sx={contentStyle}>
         <Header />
 
-        <Box sx={{ pt: 12 }}>
+        <Box sx={{ pt: { xs: 16, md: 10 } }}>
           {selectedPage === "Home" && <HomePageContent />}
           {selectedPage === "Blogs" && <BlogSection />}
           {selectedPage === "SingleBlog" && <SingleBlog />}
