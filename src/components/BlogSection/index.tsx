@@ -25,6 +25,7 @@ interface BlogList {
 const itemsPerPage = 9;
 
 const textFieldStyles = {
+  width: { xs: "40%", md: "25%" },
   background: "white",
   borderRadius: 2,
   border: "1px solid #fe6c0a",
@@ -209,12 +210,12 @@ const BlogSection = () => {
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Box
           sx={{
+            mt: { xs: 2, md: 0 },
             width: "75vw",
             flexWrap: "wrap",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            flexDirection: { xs: "column", md: "row" },
           }}
         >
           <Typography sx={{ fontSize: 25, fontWeight: "bold", color: "white" }}>
@@ -247,6 +248,7 @@ const BlogSection = () => {
         <Stack
           direction="row"
           sx={{
+            mt: 2,
             width: "75vw",
             flexWrap: "wrap",
             justifyContent: "space-between",
@@ -262,37 +264,39 @@ const BlogSection = () => {
 
               {filteredBlogs.length > 0 && paginationSection}
 
-              <Stack
-                sx={{
-                  width: "100%",
-                  height: "80vh",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Typography
+              {filteredBlogs.length === 0 && (
+                <Stack
                   sx={{
-                    color: "white",
-                    fontSize: 75,
-                    fontWeight: "bold",
-                    textAlign: "center",
+                    width: "100%",
+                    height: "80vh",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
                   }}
                 >
-                  🥹
-                </Typography>
+                  <Typography
+                    sx={{
+                      color: "white",
+                      fontSize: 75,
+                      fontWeight: "bold",
+                      textAlign: "center",
+                    }}
+                  >
+                    🥹
+                  </Typography>
 
-                <Typography
-                  sx={{
-                    color: "white",
-                    fontSize: 18,
-                    fontWeight: "bold",
-                    textAlign: "center",
-                  }}
-                >
-                  Sorry!!! No result found
-                </Typography>
-              </Stack>
+                  <Typography
+                    sx={{
+                      color: "white",
+                      fontSize: 18,
+                      fontWeight: "bold",
+                      textAlign: "center",
+                    }}
+                  >
+                    Sorry!!! No result found
+                  </Typography>
+                </Stack>
+              )}
             </>
           )}
         </Stack>
