@@ -200,9 +200,15 @@ const SingleBlog = () => {
       const boldText = para.replace(/<\/?bold>/g, "");
 
       return <Typography sx={{ fontWeight: "bold" }}>{boldText}</Typography>;
-    } else {
-      return <Typography>{para}</Typography>;
     }
+
+    if (para.includes("<list>")) {
+      const listText = para.replace(/<\/?list>/g, "");
+
+      return <Typography>🚀 {listText}</Typography>;
+    }
+
+    return <Typography>{para}</Typography>;
   };
 
   const headingSection = (
