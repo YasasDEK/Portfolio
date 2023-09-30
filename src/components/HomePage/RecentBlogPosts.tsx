@@ -57,10 +57,15 @@ const RecentBlogPosts = () => {
           <Stack
             justifyContent="space-between"
             alignItems="center"
-            direction="row"
+            sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" } }}
           >
             <Typography
-              sx={{ fontSize: 25, fontWeight: "bold", color: "white" }}
+              sx={{
+                wordBreak: "break-word",
+                fontSize: 25,
+                fontWeight: "bold",
+                color: "white",
+              }}
             >
               Latest blog posts
             </Typography>
@@ -80,6 +85,7 @@ const RecentBlogPosts = () => {
                   opacity: 0.8,
                   border: "1px solid #fe6c0a",
                 },
+                mt: { xs: 2, md: 0 },
               }}
             >
               See more
@@ -136,6 +142,7 @@ const RecentBlogPosts = () => {
                     >
                       <Typography
                         sx={{
+                          wordBreak: "break-word",
                           fontFamily: "'Bebas Neue', sans-serif",
                           fontSize: 24,
                           color: "#fe6c0a",
@@ -149,6 +156,7 @@ const RecentBlogPosts = () => {
 
                       <Typography
                         sx={{
+                          wordBreak: "break-word",
                           mt: -2,
                           fontSize: 14,
                           color: "white",

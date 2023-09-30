@@ -1,13 +1,25 @@
-import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Divider,
+  IconButton,
+  Stack,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import { useRecoilState } from "recoil";
 import { currentViewPageState } from "../../State/atom";
 import { Link, useNavigate } from "react-router-dom";
 import EmailIcon from "@mui/icons-material/Email";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useState } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
   const pages = ["Projects", "Home", "Blogs"];
+  const [show, setShow] = useState(false);
   const [selectedPage, setSelectedPage] = useRecoilState(currentViewPageState);
+  const isSmallScreen = useMediaQuery("(max-width:280px)");
 
   const handlePageChange = (page: "Projects" | "Home" | "Blogs") => {
     setSelectedPage(page);
@@ -58,49 +70,65 @@ const Header = () => {
               </Stack>
             </Button>
 
-            <Box sx={{ mt: { xs: -1, md: 0 } }}>
-              {pages.map((page) => (
-                <Button
-                  variant="text"
-                  onClick={() =>
-                    handlePageChange(page as "Projects" | "Home" | "Blogs")
-                  }
-                  key={page}
-                  sx={{
-                    color: page === selectedPage ? "#fe6c0a" : "white",
-                    fontWeight: "bold",
-                  }}
-                >
-                  {page}
-                </Button>
-              ))}
-            </Box>
+            {isSmallScreen && (
+              <IconButton onClick={() => setShow(!show)} sx={{ mt: -2 }}>
+                <MenuIcon sx={{ color: "white" }} />
+              </IconButton>
+            )}
 
-            <Box sx={{ mb: { xs: 1, md: 0 } }}>
-              <Link
-                to="mailto:ydilshan.ek@gmail.com"
-                target="_blank"
-                rel="noopener noreferrer"
+            {(!isSmallScreen || show) && (
+              <Stack
+                sx={{
+                  mt: { xs: -1, md: 0 },
+                  display: "flex",
+                  flexDirection: isSmallScreen ? "column" : "row",
+                }}
               >
-                <Button
-                  variant="outlined"
-                  sx={{
-                    border: "1px solid #fe6c0a",
-                    color: "#fe6c0a",
-                    "&:hover": {
-                      border: "1px solid #fe6c0a",
-                      opacity: 0.8,
-                    },
-                  }}
-                >
-                  <Typography sx={{ fontSize: 12, mr: 1 }}>
-                    Drop your ideas
-                  </Typography>
+                {pages.map((page) => (
+                  <Button
+                    variant="text"
+                    onClick={() =>
+                      handlePageChange(page as "Projects" | "Home" | "Blogs")
+                    }
+                    key={page}
+                    sx={{
+                      color: page === selectedPage ? "#fe6c0a" : "white",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {page}
+                  </Button>
+                ))}
+              </Stack>
+            )}
 
-                  <EmailIcon />
-                </Button>
-              </Link>
-            </Box>
+            {(!isSmallScreen || show) && (
+              <Box sx={{ mb: { xs: 1, md: 0 } }}>
+                <Link
+                  to="mailto:ydilshan.ek@gmail.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      border: "1px solid #fe6c0a",
+                      color: "#fe6c0a",
+                      "&:hover": {
+                        border: "1px solid #fe6c0a",
+                        opacity: 0.8,
+                      },
+                    }}
+                  >
+                    <Typography sx={{ fontSize: 12, mr: 1 }}>
+                      Drop your ideas
+                    </Typography>
+
+                    <EmailIcon />
+                  </Button>
+                </Link>
+              </Box>
+            )}
           </Box>
 
           <Box sx={{ display: "flex", justifyContent: "center" }}>

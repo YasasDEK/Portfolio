@@ -25,7 +25,7 @@ interface BlogList {
 const itemsPerPage = 9;
 
 const textFieldStyles = {
-  width: { xs: "40%", md: "25%" },
+  width: { xs: "100%", sm: "25%" },
   background: "white",
   borderRadius: 2,
   border: "1px solid #fe6c0a",
@@ -37,6 +37,7 @@ const textFieldStyles = {
       borderColor: "transparent",
     },
   },
+  mt: { xs: 2, sm: 0 },
 };
 
 const BlogSection = () => {
@@ -179,6 +180,7 @@ const BlogSection = () => {
           >
             <Typography
               sx={{
+                wordBreak: "break-word",
                 fontFamily: "'Bebas Neue', sans-serif",
                 fontSize: 24,
                 color: "#fe6c0a",
@@ -191,6 +193,7 @@ const BlogSection = () => {
 
             <Typography
               sx={{
+                wordBreak: "break-word",
                 mt: -2,
                 fontFamily: "'Bebas Neue', sans-serif",
                 fontSize: 18,
@@ -216,6 +219,7 @@ const BlogSection = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
+            flexDirection: { xs: "column", sm: "row" },
           }}
         >
           <Typography sx={{ fontSize: 25, fontWeight: "bold", color: "white" }}>

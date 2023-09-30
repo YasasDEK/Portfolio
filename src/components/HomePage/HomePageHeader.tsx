@@ -1,23 +1,7 @@
-import { Box, Stack, Typography, Avatar } from "@mui/material";
-import { getDownloadURL, listAll, ref } from "firebase/storage";
-import { useEffect, useState } from "react";
-import { storage } from "../../config/firebase";
+import { Box, Stack, Typography, Avatar, useMediaQuery } from "@mui/material";
 
 const HomePageHeader = () => {
-  const [profilePicture, setProfilePicture] = useState<string[]>([]);
-  const imagesListRef = ref(storage, "profile-picture/");
-
-  useEffect(() => {
-    listAll(imagesListRef).then((response) => {
-      response.items.forEach((item) => {
-        getDownloadURL(item).then((url) => {
-          setProfilePicture((prev) => [...prev, url]);
-        });
-      });
-    });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const isSmallScreen = useMediaQuery("(max-width:280px)");
 
   return (
     <Box
@@ -35,20 +19,29 @@ const HomePageHeader = () => {
         <Stack
           sx={{ display: "flex", justifyContent: "center", width: "100%" }}
         >
-          <Box sx={{ display: "flex", justifyContent: "center", my: 2 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              mt: isSmallScreen ? -4 : 2,
+              mb: 2,
+            }}
+          >
             <Avatar
-              src={profilePicture[0]}
+              src={`${process.env.PUBLIC_URL}/images/profile-picture.jpeg`}
               sx={{
-                width: 150,
-                height: 150,
+                width: { xs: 120, sm: 150 },
+                height: { xs: 120, sm: 150 },
                 display: { xs: "flex", md: "none" },
               }}
             />
           </Box>
 
           <Typography
+            maxWidth={{ xs: "100%", md: "75%" }}
             sx={{
-              fontSize: 50,
+              wordBreak: "break-word",
+              fontSize: { xs: 30, sm: 50 },
               fontWeight: "bold",
               color: "white",
               textAlign: { xs: "center", md: "initial" },
@@ -60,7 +53,8 @@ const HomePageHeader = () => {
           <Typography
             maxWidth={{ xs: "100%", md: "75%" }}
             sx={{
-              fontSize: 25,
+              wordBreak: "break-word",
+              fontSize: { xs: 15, md: 25 },
               fontWeight: "bold",
               color: "#fe6c0a",
               pb: 2,
@@ -73,6 +67,7 @@ const HomePageHeader = () => {
           <Typography
             maxWidth={{ xs: "100%", md: "75%" }}
             sx={{
+              wordBreak: "break-word",
               textAlign: { xs: "center", md: "initial" },
               color: "white",
             }}
@@ -86,7 +81,7 @@ const HomePageHeader = () => {
         </Stack>
 
         <Avatar
-          src={profilePicture[0]}
+          src={`${process.env.PUBLIC_URL}/images/profile-picture.jpeg`}
           sx={{
             width: 150,
             height: 150,

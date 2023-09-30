@@ -101,7 +101,7 @@ const Footer = () => {
         </Box>
 
         <Typography
-          sx={{ color: "white", textAlign: "center" }}
+          sx={{ wordBreak: "break-word", color: "white", textAlign: "center" }}
         >{`© 2023 - Yasas.EK | All right reserved`}</Typography>
       </Stack>
     </Box>

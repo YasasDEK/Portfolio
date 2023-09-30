@@ -57,33 +57,43 @@ const RecentProjects = () => {
           <Stack
             justifyContent="space-between"
             alignItems="center"
-            direction="row"
+            sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" } }}
           >
-            <Typography
-              sx={{ fontSize: 25, fontWeight: "bold", color: "white" }}
-            >
-              Recent Projects
-            </Typography>
+            <Box>
+              <Typography
+                sx={{
+                  wordBreak: "break-word",
+                  fontSize: 25,
+                  fontWeight: "bold",
+                  color: "white",
+                }}
+              >
+                Recent Projects
+              </Typography>
+            </Box>
 
-            <Button
-              variant="outlined"
-              onClick={() => {
-                setSelectedPage("Projects");
-                navigate("/projects");
-              }}
-              sx={{
-                fontSize: 13,
-                fontWeight: "bold",
-                color: "#fe6c0a",
-                border: "1px solid #fe6c0a",
-                "&:hover": {
-                  opacity: 0.8,
+            <Box>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  setSelectedPage("Projects");
+                  navigate("/projects");
+                }}
+                sx={{
+                  fontSize: 13,
+                  fontWeight: "bold",
+                  color: "#fe6c0a",
                   border: "1px solid #fe6c0a",
-                },
-              }}
-            >
-              See more
-            </Button>
+                  "&:hover": {
+                    opacity: 0.8,
+                    border: "1px solid #fe6c0a",
+                  },
+                  mt: { xs: 2, md: 0 },
+                }}
+              >
+                See more
+              </Button>
+            </Box>
           </Stack>
 
           <Stack
@@ -137,6 +147,7 @@ const RecentProjects = () => {
                     >
                       <Typography
                         sx={{
+                          wordBreak: "break-word",
                           fontFamily: "'Bebas Neue', sans-serif",
                           fontSize: 24,
                           color: "#fe6c0a",
@@ -154,6 +165,7 @@ const RecentProjects = () => {
                           fontSize: 14,
                           color: "white",
                           textAlign: "center",
+                          wordBreak: "break-word",
                         }}
                       >
                         {project.shortDescription}

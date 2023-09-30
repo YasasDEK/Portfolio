@@ -56,7 +56,16 @@ const ProjectsSection = () => {
     <Box sx={{ pb: 8, pt: 2 }}>
       <Box sx={{ display: "flex", justifyContent: "center" }}>
         <Box sx={{ width: "75vw", flexWrap: "wrap" }}>
-          <Typography sx={{ fontSize: 25, fontWeight: "bold", color: "white" }}>
+          <Typography
+            sx={{
+              fontSize: 25,
+              fontWeight: "bold",
+              color: "white",
+              display: "flex",
+              justifyContent: "center",
+              mt: { xs: 2, md: -1 },
+            }}
+          >
             Projects
           </Typography>
         </Box>
@@ -123,6 +132,7 @@ const ProjectsSection = () => {
                         fontSize: 24,
                         color: "#fe6c0a",
                         textAlign: "center",
+                        wordBreak: "break-word",
                       }}
                     >
                       {project.heading}
@@ -136,6 +146,7 @@ const ProjectsSection = () => {
                         fontSize: 14,
                         color: "white",
                         textAlign: "center",
+                        wordBreak: "break-word",
                       }}
                     >
                       {project.shortDescription}
