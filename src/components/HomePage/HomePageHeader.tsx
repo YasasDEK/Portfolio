@@ -61,7 +61,7 @@ const HomePageHeader = () => {
               textAlign: { xs: "center", md: "initial" },
             }}
           >
-            Software Engineer
+            Senior Software Engineer
           </Typography>
 
           <Typography
