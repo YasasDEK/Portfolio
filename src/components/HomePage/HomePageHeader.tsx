@@ -86,7 +86,7 @@ const HomePageHeader = () => {
               href={`${process.env.PUBLIC_URL}/pdf/Yasas Ekanayaka - CV.pdf`}
               download
             >
-              Download Resume
+              ⏬ Download Resume
             </Button>
           </Box>
 
@@ -140,7 +140,7 @@ const HomePageHeader = () => {
               href={`${process.env.PUBLIC_URL}/pdf/Yasas Ekanayaka - CV.pdf`}
               download
             >
-              Download Resume
+              ⏬ Download Resume
             </Button>
           </Box>
         </Stack>
