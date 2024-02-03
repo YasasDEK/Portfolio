@@ -35,17 +35,16 @@ const HomePageHeader = () => {
             }}
           >
             <Avatar
-              src={`${process.env.PUBLIC_URL}/images/profile-picture.jpeg`}
+              src={`${process.env.PUBLIC_URL}/images/profile-picture.png`}
               sx={{
-                width: { xs: 120, sm: 150 },
-                height: { xs: 120, sm: 150 },
+                width: { xs: 150, sm: 180 },
+                height: { xs: 150, sm: 180 },
                 display: { xs: "flex", md: "none" },
               }}
             />
           </Box>
 
           <Typography
-            maxWidth={{ xs: "100%", md: "75%" }}
             sx={{
               wordBreak: "break-word",
               fontSize: { xs: 30, sm: 50 },
@@ -83,7 +82,7 @@ const HomePageHeader = () => {
                 borderRadius: 50,
                 display: { xs: "flex", md: "none" },
               }}
-              href={`${process.env.PUBLIC_URL}/pdf/Yasas Ekanayaka - CV.pdf`}
+              href={`${process.env.PUBLIC_URL}/pdf/Yasas Dilshan Ekanayaka - CV.pdf`}
               download
             >
               ⏬ Download Resume
@@ -91,7 +90,7 @@ const HomePageHeader = () => {
           </Box>
 
           <Typography
-            maxWidth={{ xs: "100%", md: "85%" }}
+            maxWidth={{ xs: "100%", md: "95%" }}
             sx={{
               wordBreak: "break-word",
               textAlign: { xs: "center", md: "initial" },
@@ -107,7 +106,6 @@ const HomePageHeader = () => {
           </Typography>
 
           <Typography
-            maxWidth={{ xs: "100%", md: "85%" }}
             sx={{
               mt: 2,
               wordBreak: "break-word",
@@ -137,7 +135,7 @@ const HomePageHeader = () => {
                 borderRadius: 50,
                 display: { xs: "none", md: "flex" },
               }}
-              href={`${process.env.PUBLIC_URL}/pdf/Yasas Ekanayaka - CV.pdf`}
+              href={`${process.env.PUBLIC_URL}/pdf/Yasas Dilshan Ekanayaka - CV.pdf`}
               download
             >
               ⏬ Download Resume
@@ -147,11 +145,11 @@ const HomePageHeader = () => {
 
         <Box height="85%">
           <Avatar
-            src={`${process.env.PUBLIC_URL}/images/profile-picture.jpeg`}
+            src={`${process.env.PUBLIC_URL}/images/profile-picture.png`}
             sx={{
               position: "relative",
-              width: 150,
-              height: 150,
+              width: 200,
+              height: 200,
               display: { xs: "none", md: "flex" },
             }}
           />
