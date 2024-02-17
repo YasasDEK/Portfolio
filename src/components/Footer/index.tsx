@@ -15,7 +15,6 @@ const Footer = () => {
 
   return (
     <Box
-      width="100vw"
       minHeight={70}
       sx={{
         background: "#3a3a3a",
