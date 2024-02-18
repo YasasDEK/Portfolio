@@ -1,6 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { query, collection, orderBy, limit, getDocs } from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { database } from "../../config/firebase";
 import BlogSkeleton from "../Shared/customSkeleton";
 import { useNavigate } from "react-router-dom";
@@ -17,12 +17,17 @@ interface BlogList {
 
 const RecentBlogPosts = () => {
   const navigate = useNavigate();
+
+  const isDataFetched = useRef(false);
+
   const [loading, setLoading] = useState(true);
   const [blogList, setBlogList] = useState<BlogList[]>([]);
   const blogListRef = collection(database, "blogPosts");
   const setSelectedPage = useSetRecoilState(currentViewPageState);
 
   useEffect(() => {
+    if (isDataFetched.current) return;
+
     setLoading(true);
 
     const getBlogPosts = async () => {
@@ -39,16 +44,15 @@ const RecentBlogPosts = () => {
 
         setBlogList(data);
         setLoading(false);
-      } catch (error) {
-        console.log(error);
+      } catch (_error) {
         setLoading(false);
       }
     };
 
     getBlogPosts();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    isDataFetched.current = true;
+  }, [blogListRef]);
 
   return (
     <Box sx={{ mb: loading ? -5 : 8, pt: 8 }}>

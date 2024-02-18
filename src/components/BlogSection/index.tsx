@@ -1,5 +1,5 @@
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
-import { ChangeEvent, useEffect, useState, useMemo } from "react";
+import { ChangeEvent, useEffect, useState, useMemo, useRef } from "react";
 import { database } from "../../config/firebase";
 import {
   Box,
@@ -24,26 +24,163 @@ interface BlogList {
 
 const itemsPerPage = 9;
 
-const textFieldStyles = {
-  width: { xs: "100%", sm: "25%" },
-  background: "white",
-  borderRadius: 2,
-  border: "1px solid #fe6c0a",
-  "& .MuiOutlinedInput-root": {
-    "&:hover fieldset": {
-      borderColor: "transparent",
+const customStyles = {
+  textField: {
+    width: {
+      xs: "100%",
+      sm: "25%",
     },
-    "&.Mui-focused fieldset": {
-      borderColor: "transparent",
+    background: "white",
+    borderRadius: 2,
+    border: "1px solid #fe6c0a",
+    "& .MuiOutlinedInput-root": {
+      "&:hover fieldset": {
+        borderColor: "transparent",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "transparent",
+      },
+    },
+    mt: {
+      xs: 2,
+      sm: 0,
     },
   },
-  mt: { xs: 2, sm: 0 },
+  paginationBox: {
+    mt: 12,
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    bottom: 0,
+  },
+  pagination: {
+    color: "white",
+    "& .MuiPaginationItem-root": {
+      color: "white",
+    },
+    "& .MuiPaginationItem-root.Mui-selected": {
+      "&:hover": {
+        backgroundColor: "#fe6c0a",
+        opacity: 0.8,
+      },
+      color: "white",
+      backgroundColor: "#fe6c0a",
+    },
+  },
+  blog: {
+    cursor: "pointer",
+    width: {
+      xs: "100%",
+      md: "45%",
+      xl: "30%",
+    },
+    height: 350,
+    mt: 4,
+    backgroundSize: "cover",
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "end",
+    "&:hover": {
+      opacity: 0.8,
+      height: 346,
+      width: {
+        xs: "100%",
+        md: "44.7%",
+        xl: "29.7%",
+      },
+      border: "2px solid #fe6c0a",
+    },
+  },
+  blogStack: {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    height: 100,
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
+    mb: 2,
+    p: 1,
+  },
+  heading: {
+    wordBreak: "break-word",
+    fontFamily: "'Bebas Neue', sans-serif",
+    fontSize: 24,
+    color: "#fe6c0a",
+    textAlign: "center",
+    mb: 2,
+  },
+  description: {
+    wordBreak: "break-word",
+    mt: -2,
+    fontFamily: "'Bebas Neue', sans-serif",
+    fontSize: 18,
+    color: "white",
+    textAlign: "center",
+  },
+  outerBox: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  innerBox: {
+    mt: {
+      xs: 2,
+      md: 0,
+    },
+    width: "75vw",
+    flexWrap: "wrap",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: { xs: "column", sm: "row" },
+  },
+  postHeading: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "white",
+  },
+  icon: {
+    color: "#fe6c0a",
+  },
+  detailsOuterBox: {
+    display: "flex",
+    justifyContent: "center",
+  },
+  detailsStack: {
+    mt: 2,
+    width: "75vw",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+  },
+  noResultBox: {
+    width: "100%",
+    height: "80vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  noResultIcon: {
+    color: "white",
+    fontSize: 75,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  noResultText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
 };
 
 const BlogSection = () => {
   const navigate = useNavigate();
+
   const [blogList, setBlogList] = useState<BlogList[]>([]);
   const blogListRef = collection(database, "blogPosts");
+
+  const isDataFetched = useRef(false);
+
   const [loading, setLoading] = useState(false);
   const setSelectedPage = useSetRecoilState(currentViewPageState);
   const [filteredBlogs, setFilteredBlogs] = useState<BlogList[]>([]);
@@ -72,6 +209,8 @@ const BlogSection = () => {
   };
 
   useEffect(() => {
+    if (isDataFetched.current) return;
+
     setLoading(true);
 
     const getBlogPosts = async () => {
@@ -95,47 +234,27 @@ const BlogSection = () => {
         setTotalPage(Math.ceil(data.length / itemsPerPage));
 
         setLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (_error) {}
     };
 
     getBlogPosts();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    isDataFetched.current = true;
+  }, [blogListRef, setSelectedPage]);
 
   useEffect(() => {
     setTotalPage(Math.ceil(filteredBlogs.length / itemsPerPage));
   }, [filteredBlogs]);
 
   const paginationSection = (
-    <Box
-      sx={{
-        mt: 12,
-        width: "100%",
-        display: "flex",
-        justifyContent: "center",
-        bottom: 0,
-      }}
-    >
+    <Box sx={customStyles.paginationBox}>
       <Pagination
         size="large"
         color="primary"
         count={totalPage}
         page={currentPage}
         onChange={handlePageChange}
-        sx={{
-          color: "white",
-          "& .MuiPaginationItem-root": {
-            color: "white",
-          },
-          "& .MuiPaginationItem-root.Mui-selected": {
-            "&:hover": { backgroundColor: "#fe6c0a", opacity: 0.8 },
-            color: "white",
-            backgroundColor: "#fe6c0a",
-          },
-        }}
+        sx={customStyles.pagination}
       />
     </Box>
   );
@@ -148,59 +267,14 @@ const BlogSection = () => {
           key={index}
           onClick={() => navigate(`/blog?blogId=${blog.id}`)}
           sx={{
-            cursor: "pointer",
-            width: { xs: "100%", md: "45%", xl: "30%" },
-            height: 350,
-            mt: 4,
+            ...customStyles.blog,
             backgroundImage: `url(${blog?.image})`,
-            backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "end",
-            "&:hover": {
-              opacity: 0.8,
-              height: 346,
-              width: { xs: "100%", md: "44.7%", xl: "29.7%" },
-              border: "2px solid #fe6c0a",
-            },
           }}
         >
-          <Stack
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
-              height: 100,
-              backgroundColor: "rgba(0, 0, 0, 0.8)",
-              mb: 2,
-              p: 1,
-            }}
-          >
-            <Typography
-              sx={{
-                wordBreak: "break-word",
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: 24,
-                color: "#fe6c0a",
-                textAlign: "center",
-                mb: 2,
-              }}
-            >
-              {blog.heading}
-            </Typography>
+          <Stack sx={customStyles.blogStack}>
+            <Typography sx={customStyles.heading}>{blog.heading}</Typography>
 
-            <Typography
-              sx={{
-                wordBreak: "break-word",
-                mt: -2,
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: 18,
-                color: "white",
-                textAlign: "center",
-              }}
-            >
+            <Typography sx={customStyles.description}>
               {blog.shortDescription}
             </Typography>
           </Stack>
@@ -209,32 +283,20 @@ const BlogSection = () => {
     });
 
   return (
-    <Box sx={{ pb: 8, pt: 2 }}>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
-        <Box
-          sx={{
-            mt: { xs: 2, md: 0 },
-            width: "75vw",
-            flexWrap: "wrap",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            flexDirection: { xs: "column", sm: "row" },
-          }}
-        >
-          <Typography sx={{ fontSize: 25, fontWeight: "bold", color: "white" }}>
-            Blog Posts
-          </Typography>
+    <Box pb={8} pt={2}>
+      <Box sx={customStyles.outerBox}>
+        <Box sx={customStyles.innerBox}>
+          <Typography sx={customStyles.postHeading}>Blog Posts</Typography>
 
           <TextField
             size="small"
             placeholder="Search"
-            sx={textFieldStyles}
+            sx={customStyles.textField}
             onChange={handleFilter}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <SearchIcon sx={{ color: "#fe6c0a" }} />
+                  <SearchIcon sx={customStyles.icon} />
                 </InputAdornment>
               ),
             }}
@@ -244,20 +306,11 @@ const BlogSection = () => {
 
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "center",
+          ...customStyles.detailsOuterBox,
           mt: loading ? -12 : -2,
         }}
       >
-        <Stack
-          direction="row"
-          sx={{
-            mt: 2,
-            width: "75vw",
-            flexWrap: "wrap",
-            justifyContent: "space-between",
-          }}
-        >
+        <Stack direction="row" sx={customStyles.detailsStack}>
           {loading ? (
             Array.from({ length: 6 }).map((_, index) => (
               <CustomSkeleton key={index} index={index} />
@@ -268,35 +321,11 @@ const BlogSection = () => {
 
               {filteredBlogs.length > 0 && paginationSection}
 
-              {filteredBlogs.length === 0 && (
-                <Stack
-                  sx={{
-                    width: "100%",
-                    height: "80vh",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography
-                    sx={{
-                      color: "white",
-                      fontSize: 75,
-                      fontWeight: "bold",
-                      textAlign: "center",
-                    }}
-                  >
-                    🥹
-                  </Typography>
+              {isDataFetched.current && filteredBlogs.length === 0 && (
+                <Stack sx={customStyles.noResultBox}>
+                  <Typography sx={customStyles.noResultIcon}>🥹</Typography>
 
-                  <Typography
-                    sx={{
-                      color: "white",
-                      fontSize: 18,
-                      fontWeight: "bold",
-                      textAlign: "center",
-                    }}
-                  >
+                  <Typography sx={customStyles.noResultText}>
                     Sorry!!! No result found
                   </Typography>
                 </Stack>

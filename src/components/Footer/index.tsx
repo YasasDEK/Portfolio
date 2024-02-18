@@ -5,38 +5,50 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { Link } from "react-router-dom";
 
-const Footer = () => {
-  const iconButtonStyles = {
+const customStyles = {
+  container: {
+    minHeight: 70,
+    background: "#3a3a3a",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    mt: 10,
+    flexWrap: "wrap",
+  },
+  stack: {
+    width: "75vw",
+    flexWrap: "wrap",
+    display: "flex",
+    justifyContent: {
+      xs: "center",
+      md: "space-between",
+    },
+    alignItems: "center",
+  },
+  title: {
+    color: "white",
+    fontFamily: "'Bebas Neue', sans-serif",
+    fontSize: 25,
+  },
+  iconLink: {
     color: "white",
     "&:hover": {
       color: "#fe6c0a",
     },
-  };
+  },
+  text: {
+    wordBreak: "break-word",
+    color: "white",
+    textAlign: "center",
+  },
+};
 
+const Footer = () => {
   return (
-    <Box
-      minHeight={70}
-      sx={{
-        background: "#3a3a3a",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        mt: 10,
-        flexWrap: "wrap",
-      }}
-    >
-      <Stack
-        direction={{ xs: "column", md: "row" }}
-        sx={{
-          width: "75vw",
-          flexWrap: "wrap",
-          display: "flex",
-          justifyContent: { xs: "center", md: "space-between" },
-          alignItems: "center",
-        }}
-      >
+    <Box sx={customStyles.container}>
+      <Stack direction={{ xs: "column", md: "row" }} sx={customStyles.stack}>
         <Stack direction="row" alignItems="center" spacing={0.5}>
-          <Box sx={{ pt: 0.5 }}>
+          <Box pt={0.5}>
             <img
               width={40}
               alt="logo"
@@ -44,16 +56,8 @@ const Footer = () => {
             />
           </Box>
 
-          <Box sx={{ pt: 0.5 }}>
-            <Typography
-              sx={{
-                color: "white",
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: 25,
-              }}
-            >
-              Yasas.EK
-            </Typography>
+          <Box pt={0.5}>
+            <Typography sx={customStyles.title}>Yasas.EK</Typography>
           </Box>
         </Stack>
 
@@ -64,7 +68,7 @@ const Footer = () => {
             rel="noopener noreferrer"
           >
             <IconButton>
-              <FacebookIcon sx={iconButtonStyles} />
+              <FacebookIcon sx={customStyles.iconLink} />
             </IconButton>
           </Link>
 
@@ -74,7 +78,7 @@ const Footer = () => {
             rel="noopener noreferrer"
           >
             <IconButton>
-              <LinkedInIcon sx={iconButtonStyles} />
+              <LinkedInIcon sx={customStyles.iconLink} />
             </IconButton>
           </Link>
 
@@ -84,7 +88,7 @@ const Footer = () => {
             rel="noopener noreferrer"
           >
             <IconButton>
-              <GitHubIcon sx={iconButtonStyles} />
+              <GitHubIcon sx={customStyles.iconLink} />
             </IconButton>
           </Link>
 
@@ -94,14 +98,14 @@ const Footer = () => {
             rel="noopener noreferrer"
           >
             <IconButton>
-              <InstagramIcon sx={iconButtonStyles} />
+              <InstagramIcon sx={customStyles.iconLink} />
             </IconButton>
           </Link>
         </Box>
 
-        <Typography
-          sx={{ wordBreak: "break-word", color: "white", textAlign: "center" }}
-        >{`© 2023 - Yasas.EK | All right reserved`}</Typography>
+        <Typography sx={customStyles.text}>
+          {`© 2023 - Yasas.EK | All right reserved`}
+        </Typography>
       </Stack>
     </Box>
   );

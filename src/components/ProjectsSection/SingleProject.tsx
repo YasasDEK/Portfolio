@@ -10,7 +10,7 @@ import {
   Link,
 } from "@mui/material";
 import { getDoc, doc } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { database } from "../../config/firebase";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
@@ -37,8 +37,12 @@ interface Project {
 
 const SingleProject = () => {
   const location = useLocation();
+
   const queryParams = new URLSearchParams(location.search);
   const projectId = queryParams.get("projectId");
+
+  const isDataFetched = useRef(false);
+
   const [loading, setLoading] = useState(true);
   const [projectDetails, setProjectDetails] = useState<Project | null>(null);
   const [imageModalOpen, setImageModalOpen] = useState(false);
@@ -348,6 +352,8 @@ const SingleProject = () => {
   );
 
   useEffect(() => {
+    if (isDataFetched.current) return;
+
     setLoading(true);
 
     const getProjectsPosts = async () => {
@@ -372,8 +378,7 @@ const SingleProject = () => {
           });
 
           setLoading(false);
-        } catch (error) {
-          console.log(error);
+        } catch (_error) {
           setLoading(false);
         }
       }
@@ -381,8 +386,8 @@ const SingleProject = () => {
 
     getProjectsPosts();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    isDataFetched.current = true;
+  }, [projectId]);
 
   return (
     <Box sx={{ pb: 8, pt: 2 }}>

@@ -63,7 +63,11 @@ const formDefaultValue = {
 
 const SingleBlog = () => {
   const location = useLocation();
+
   const queryParams = new URLSearchParams(location.search);
+
+  const isDataFetched = useRef(false);
+
   const blogId = queryParams.get("blogId");
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -553,6 +557,8 @@ const SingleBlog = () => {
   );
 
   useEffect(() => {
+    if (isDataFetched.current) return;
+
     setLoading(true);
 
     reset();
@@ -576,8 +582,7 @@ const SingleBlog = () => {
           });
 
           setLoading(false);
-        } catch (error) {
-          console.log(error);
+        } catch (_error) {
           setLoading(false);
         }
       }
@@ -585,8 +590,8 @@ const SingleBlog = () => {
 
     getBlogsPosts();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    isDataFetched.current = true;
+  }, [blogId, reset]);
 
   return (
     <Box sx={{ pt: 2 }}>

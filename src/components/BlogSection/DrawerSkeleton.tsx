@@ -1,85 +1,85 @@
 import { Box, Stack, Typography, Divider, Card, Skeleton } from "@mui/material";
 import { skeletonColor } from "../Shared/pageHelpers";
 
-const DrawerSkeleton = () => (
-  <Box
-    sx={{
-      background: "#18191d",
-      width: {
-        xs: "80vw",
-        sm: "60vw",
-        md: "45vw",
-        lg: "35vw",
-        xl: "30vw",
-      },
-      p: 2,
-      minHeight: "100%",
-    }}
-  >
-    <Stack direction="row" justifyContent="space-between" alignItems="center">
-      <Typography
-        sx={{
-          fontFamily: "'Bebas Neue', sans-serif",
-          fontSize: 25,
-          color: "white",
-        }}
-      >
-        Comments
-      </Typography>
+const customStyles = {
+  drawer: {
+    background: "#18191d",
+    width: {
+      xs: "80vw",
+      sm: "60vw",
+      md: "45vw",
+      lg: "35vw",
+      xl: "30vw",
+    },
+    p: 2,
+    minHeight: "100%",
+  },
+  title: {
+    fontFamily: "'Bebas Neue', sans-serif",
+    fontSize: 25,
+    color: "white",
+  },
+  skeletonCircle: {
+    backgroundColor: skeletonColor,
+    width: 50,
+    height: 50,
+  },
+  skeletonText: {
+    backgroundColor: skeletonColor,
+  },
+  card: {
+    p: 2,
+    background: "#18191d",
+    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.8)",
+  },
+  divider: {
+    mt: 1,
+    borderColor: "white",
+  },
+  cardBox: {
+    flexDirection: "row",
+    display: "flex",
+    gap: 2,
+    alignItems: "center",
+  },
+};
 
-      <Skeleton
-        sx={{ backgroundColor: skeletonColor }}
-        variant="circular"
-        width={30}
-        height={30}
-      />
+const DrawerSkeleton = () => (
+  <Box sx={customStyles.drawer}>
+    <Stack direction="row" justifyContent="space-between" alignItems="center">
+      <Typography sx={customStyles.title}>Comments</Typography>
+
+      <Skeleton sx={customStyles.skeletonCircle} variant="circular" />
     </Stack>
 
-    <Divider sx={{ mt: 1, borderColor: "white" }} />
+    <Divider sx={customStyles.divider} />
 
-    <Stack spacing={2} sx={{ mt: 2 }}>
+    <Stack spacing={2} mt={2}>
       {Array.from({ length: 4 }).map((_, index) => (
-        <Card
-          key={index}
-          sx={{
-            p: 2,
-            background: "#18191d",
-            boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.8)",
-          }}
-        >
-          <Box
-            sx={{
-              flexDirection: "row",
-              display: "flex",
-              gap: 2,
-              alignItems: "center",
-            }}
-          >
-            <Skeleton
-              variant="circular"
-              sx={{ width: 50, height: 50, backgroundColor: skeletonColor }}
-            />
+        <Card key={index} sx={customStyles.card}>
+          <Box sx={customStyles.cardBox}>
+            <Skeleton variant="circular" sx={customStyles.skeletonCircle} />
 
             <Box>
               <Skeleton
                 variant="text"
+                sx={customStyles.skeletonText}
                 width={120}
-                sx={{ backgroundColor: skeletonColor }}
               />
 
               <Skeleton
                 variant="text"
+                sx={customStyles.skeletonText}
                 width={80}
-                sx={{ backgroundColor: skeletonColor }}
               />
             </Box>
           </Box>
 
-          <Skeleton sx={{ mt: 2, backgroundColor: skeletonColor }} />
-          <Skeleton sx={{ backgroundColor: skeletonColor }} />
-          <Skeleton sx={{ backgroundColor: skeletonColor }} />
-          <Skeleton sx={{ backgroundColor: skeletonColor }} />
-          <Skeleton width={250} sx={{ backgroundColor: skeletonColor }} />
+          <Skeleton sx={customStyles.skeletonText} />
+          <Skeleton sx={customStyles.skeletonText} />
+          <Skeleton sx={customStyles.skeletonText} />
+          <Skeleton sx={customStyles.skeletonText} />
+          <Skeleton width={250} sx={customStyles.skeletonText} />
         </Card>
       ))}
     </Stack>

@@ -1,6 +1,6 @@
 import { Box, Button, Stack, Typography } from "@mui/material";
 import { query, collection, orderBy, limit, getDocs } from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { database } from "../../config/firebase";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
@@ -17,12 +17,17 @@ interface ProjectsList {
 
 const RecentProjects = () => {
   const navigate = useNavigate();
+
+  const isDataFetched = useRef(false);
+
   const [loading, setLoading] = useState(true);
   const [projectsList, setProjectsList] = useState<ProjectsList[]>([]);
   const projectsListRef = collection(database, "projects");
   const setSelectedPage = useSetRecoilState(currentViewPageState);
 
   useEffect(() => {
+    if (isDataFetched.current) return;
+
     setLoading(true);
 
     const getProjectsPosts = async () => {
@@ -39,16 +44,15 @@ const RecentProjects = () => {
 
         setProjectsList(data);
         setLoading(false);
-      } catch (error) {
-        console.log(error);
+      } catch (_error) {
         setLoading(false);
       }
     };
 
     getProjectsPosts();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    isDataFetched.current = true;
+  }, [projectsListRef]);
 
   return (
     <Box sx={{ mb: loading ? -10 : 0 }}>
