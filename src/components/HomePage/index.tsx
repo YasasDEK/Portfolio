@@ -10,16 +10,7 @@ import HomePageContent from "./HomePageContent";
 import { useLocation } from "react-router-dom";
 import SingleProject from "../ProjectsSection/SingleProject";
 import SingleBlog from "../BlogSection/SingleBlog";
-
-const layoutStyle = {
-  display: "flex",
-  flexDirection: "column",
-  minHeight: "100vh",
-};
-
-const contentStyle = {
-  flex: "1 0 auto",
-};
+import { customStyles } from "./index.styles";
 
 const HomePage = () => {
   const [selectedPage, setSelectedPage] = useRecoilState(currentViewPageState);
@@ -48,11 +39,11 @@ const HomePage = () => {
   });
 
   return (
-    <Box sx={layoutStyle}>
-      <Box sx={contentStyle}>
+    <Box sx={customStyles.layout}>
+      <Box sx={customStyles.content}>
         <Header />
 
-        <Box sx={{ pt: { xs: 16, md: 10 } }}>
+        <Box sx={customStyles.contentBox}>
           {selectedPage === "Home" && <HomePageContent />}
           {selectedPage === "Blogs" && <BlogSection />}
           {selectedPage === "SingleBlog" && <SingleBlog />}
@@ -61,7 +52,7 @@ const HomePage = () => {
         </Box>
       </Box>
 
-      <Box sx={{ display: "block", bottom: 0 }}>
+      <Box sx={customStyles.footerBox}>
         <Footer />
       </Box>
     </Box>

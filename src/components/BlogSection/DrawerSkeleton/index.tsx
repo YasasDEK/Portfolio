@@ -1,48 +1,5 @@
 import { Box, Stack, Typography, Divider, Card, Skeleton } from "@mui/material";
-import { skeletonColor } from "../Shared/pageHelpers";
-
-const customStyles = {
-  drawer: {
-    background: "#18191d",
-    width: {
-      xs: "80vw",
-      sm: "60vw",
-      md: "45vw",
-      lg: "35vw",
-      xl: "30vw",
-    },
-    p: 2,
-    minHeight: "100%",
-  },
-  title: {
-    fontFamily: "'Bebas Neue', sans-serif",
-    fontSize: 25,
-    color: "white",
-  },
-  skeletonCircle: {
-    backgroundColor: skeletonColor,
-    width: 50,
-    height: 50,
-  },
-  skeletonText: {
-    backgroundColor: skeletonColor,
-  },
-  card: {
-    p: 2,
-    background: "#18191d",
-    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.8)",
-  },
-  divider: {
-    mt: 1,
-    borderColor: "white",
-  },
-  cardBox: {
-    flexDirection: "row",
-    display: "flex",
-    gap: 2,
-    alignItems: "center",
-  },
-};
+import { customStyles } from "./index.styles";
 
 const DrawerSkeleton = () => (
   <Box sx={customStyles.drawer}>

@@ -3,13 +3,21 @@ import HomePage from "./components/HomePage";
 import { Box } from "@mui/material";
 import { RecoilRoot } from "recoil";
 import "./App.css";
+import { colorPalette } from "./components/Shared/pageHelpers";
 
 interface IRoute {
   path: string;
   element: JSX.Element;
 }
 
-function App() {
+const customStyles = {
+  mainBox: {
+    background: colorPalette.blackGrey,
+    minHeight: "100vh",
+  },
+};
+
+const App = () => {
   const appRoutes: IRoute[] = [
     { path: "/", element: <HomePage /> },
     { path: "/blogs", element: <HomePage /> },
@@ -19,7 +27,7 @@ function App() {
   ];
 
   return (
-    <Box sx={{ background: "#18191d", minHeight: "100vh" }}>
+    <Box sx={customStyles.mainBox}>
       <RecoilRoot>
         <BrowserRouter>
           <Routes>
@@ -31,6 +39,6 @@ function App() {
       </RecoilRoot>
     </Box>
   );
-}
+};
 
 export default App;

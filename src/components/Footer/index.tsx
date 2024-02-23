@@ -4,44 +4,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import { Link } from "react-router-dom";
-
-const customStyles = {
-  container: {
-    minHeight: 70,
-    background: "#3a3a3a",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    mt: 10,
-    flexWrap: "wrap",
-  },
-  stack: {
-    width: "75vw",
-    flexWrap: "wrap",
-    display: "flex",
-    justifyContent: {
-      xs: "center",
-      md: "space-between",
-    },
-    alignItems: "center",
-  },
-  title: {
-    color: "white",
-    fontFamily: "'Bebas Neue', sans-serif",
-    fontSize: 25,
-  },
-  iconLink: {
-    color: "white",
-    "&:hover": {
-      color: "#fe6c0a",
-    },
-  },
-  text: {
-    wordBreak: "break-word",
-    color: "white",
-    textAlign: "center",
-  },
-};
+import { customStyles } from "./index.styles";
 
 const Footer = () => {
   return (

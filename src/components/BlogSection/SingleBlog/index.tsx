@@ -13,15 +13,17 @@ import {
 import { getDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { database } from "../../config/firebase";
-import SingleBlogPageSkeleton from "./SingleBlogPageSkeleton";
+import { database } from "../../../config/firebase";
 import MessageIcon from "@mui/icons-material/Message";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CircularProgress from "@mui/material/CircularProgress";
 import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
-import CommentsDrawer from "./CommentsDrawer";
+import CommentsDrawer from "../CommentsDrawer";
+import { colorPalette } from "../../Shared/pageHelpers";
+import { customStyles } from "./index.styles";
+import SingleBlogPageSkeleton from "../SingleBlogPageSkeleton/index.styles";
 
 interface Blog {
   blog: {
@@ -90,12 +92,12 @@ const SingleBlog = () => {
     borderRadius: 2,
     "& .MuiOutlinedInput-root": {
       "&:hover fieldset": {
-        borderColor: "#fe6c0a",
+        borderColor: colorPalette.orangeColor,
         opacity: 0.75,
         borderRadius: 2,
       },
       "&.Mui-focused fieldset": {
-        borderColor: "#fe6c0a",
+        borderColor: colorPalette.orangeColor,
         borderRadius: 2,
         opacity: 0.75,
       },
@@ -192,6 +194,7 @@ const SingleBlog = () => {
             border: 0,
             borderRadius: 4,
             overflow: "hidden",
+            marginTop: 16,
           }}
           title={blogDetails?.heading}
           allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
@@ -203,66 +206,30 @@ const SingleBlog = () => {
     if (para.includes("<bold>")) {
       const boldText = para.replace(/<\/?bold>/g, "");
 
-      return <Typography sx={{ fontWeight: "bold" }}>{boldText}</Typography>;
+      return <Typography fontWeight="bold">{boldText}</Typography>;
     }
 
     if (para.includes("<list>")) {
       const listText = para.replace(/<\/?list>/g, "");
 
-      return <Typography>🚀 {listText}</Typography>;
+      return <Typography sx={customStyles.list}>🚀 {listText}</Typography>;
     }
 
     return <Typography>{para}</Typography>;
   };
 
   const headingSection = (
-    <Box
-      sx={{
-        mt: 2,
-        display: "flex",
-        flexDirection: { xs: "column", md: "row" },
-        justifyContent: { xs: "center", md: "space-between" },
-        alignItems: "center",
-      }}
-    >
-      <Typography
-        sx={{
-          color: "white",
-          fontFamily: "'Bebas Neue', sans-serif",
-          fontSize: 40,
-          textAlign: { xs: "center", md: "start" },
-        }}
-      >
+    <Box sx={customStyles.headingSection}>
+      <Typography sx={customStyles.headingTypography}>
         {blogDetails?.heading}
       </Typography>
 
-      <Box
-        sx={{
-          p: 0,
-          m: 0,
-          display: "flex",
-          flexDirection: { xs: "row", md: "column" },
-        }}
-      >
-        <Typography
-          sx={{
-            color: "white",
-            fontSize: 14,
-            justifyItem: "end",
-            mb: { xs: 2, md: 0 },
-          }}
-        >
+      <Box sx={customStyles.metaBox}>
+        <Typography sx={customStyles.dateTypography}>
           📆{blogDetails?.blogDate}
         </Typography>
 
-        <Typography
-          sx={{
-            color: "white",
-            fontSize: 14,
-            display: "flex",
-            justifyContent: { xs: "start", md: "end" },
-          }}
-        >
+        <Typography sx={customStyles.readTimeTypography}>
           ⏳{blogDetails?.readTime} read
         </Typography>
       </Box>
@@ -270,68 +237,49 @@ const SingleBlog = () => {
   );
 
   const iconButtonSection = (
-    <Stack direction="row" alignItems="top" spacing={1}>
-      <Tooltip title="Add a comment" placement="top" sx={{ p: 0 }}>
+    <Stack
+      direction="row"
+      alignItems="top"
+      spacing={1}
+      sx={customStyles.iconButtonSection}
+    >
+      <Tooltip
+        title="Add a comment"
+        placement="top"
+        sx={customStyles.iconButtonTooltip}
+      >
         <IconButton onClick={() => scrollBottom(scrollRef)}>
-          <MessageIcon
-            sx={{
-              color: "white",
-              "&:hover": {
-                color: "#fe6c0a",
-              },
-            }}
-          />
+          <MessageIcon sx={customStyles.iconButton} />
         </IconButton>
       </Tooltip>
 
       <Tooltip
         title="Read previous comments"
         placement="top"
-        sx={{ p: 0, pb: 0.5 }}
+        sx={customStyles.iconButtonTooltip}
       >
         <IconButton onClick={() => setCommentsOpen(true)}>
-          <MarkEmailReadIcon
-            sx={{
-              color: "white",
-              "&:hover": {
-                color: "#fe6c0a",
-              },
-            }}
-          />
+          <MarkEmailReadIcon sx={{ ...customStyles.iconButton, pb: 0.5 }} />
         </IconButton>
       </Tooltip>
     </Stack>
   );
 
   const shortDescriptionSection = (
-    <Box
-      sx={{
-        py: 2,
-        gap: 4,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
+    <Box sx={customStyles.shortDescriptionSection}>
       <Box>
-        <Typography sx={{ color: "white", fontSize: 18 }}>
+        <Typography sx={customStyles.descriptionTypography}>
           {blogDetails?.shortDescription}
         </Typography>
 
-        <Box
-          sx={{ display: "flex", flexDirection: { xs: "column", md: "row" } }}
-        >
+        <Box sx={customStyles.tagsBox}>
           {blogDetails?.tags.map((tag, index) => (
-            <Typography
-              key={index}
-              sx={{ color: "#fe6c0a", fontSize: 14, pr: 0.5 }}
-            >
+            <Typography key={index} sx={customStyles.tagTypography}>
               #{tag}
             </Typography>
           ))}
         </Box>
       </Box>
-
       {iconButtonSection}
     </Box>
   );
@@ -339,15 +287,7 @@ const SingleBlog = () => {
   const commentFormSection = (
     <Box ref={scrollRef}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Typography
-          sx={{
-            color: "rgba(0, 0, 0, 0.6)",
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: 18,
-          }}
-        >
-          Name
-        </Typography>
+        <Typography sx={customStyles.typography}>Name</Typography>
 
         <Controller
           name="name"
@@ -363,16 +303,7 @@ const SingleBlog = () => {
           )}
         />
 
-        <Typography
-          sx={{
-            mt: 2,
-            color: "rgba(0, 0, 0, 0.6)",
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: 18,
-          }}
-        >
-          Email
-        </Typography>
+        <Typography sx={customStyles.typography}>Email</Typography>
 
         <Controller
           name="email"
@@ -388,16 +319,7 @@ const SingleBlog = () => {
           )}
         />
 
-        <Typography
-          sx={{
-            mt: 2,
-            color: "rgba(0, 0, 0, 0.6)",
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: 18,
-          }}
-        >
-          Comment
-        </Typography>
+        <Typography sx={customStyles.typography}>Comment</Typography>
 
         <Controller
           name="comment"
@@ -416,15 +338,7 @@ const SingleBlog = () => {
           )}
         />
 
-        <Box
-          sx={{
-            gap: 2,
-            flexDirection: { xs: "column", lg: "row" },
-            display: "flex",
-            justifyContent: "end",
-            mt: 2,
-          }}
-        >
+        <Box sx={customStyles.box}>
           <Box>{getError()}</Box>
 
           {!getError() && submitSuccessful && (
@@ -433,7 +347,7 @@ const SingleBlog = () => {
 
           {errorSubmit && (
             <Alert severity="success">
-              An unexpected error occured! Please try again!
+              An unexpected error occurred! Please try again!
             </Alert>
           )}
           <Box>
@@ -441,22 +355,11 @@ const SingleBlog = () => {
               variant="contained"
               type="submit"
               disabled={submitting}
-              sx={{
-                width: { xs: "100%", lg: 180 },
-                backgroundColor: "#fe6c0a",
-                fontFamily: "'Bebas Neue', sans-serif",
-                fontSize: 20,
-                "&:hover": { background: "#fe6c0a", opacity: 0.8 },
-                "&:disabled": {
-                  backgroundColor: "#fe6c0a",
-                  color: "white",
-                  opacity: 0.5,
-                },
-              }}
+              sx={customStyles.textField}
             >
               Submit
               {submitting && (
-                <CircularProgress sx={{ color: "white", ml: 1 }} size={20} />
+                <CircularProgress sx={customStyles.progressIcon} size={20} />
               )}
             </Button>
           </Box>
@@ -466,35 +369,21 @@ const SingleBlog = () => {
   );
 
   const commentsHeaderSection = (
-    <FormLabel
-      sx={{
-        fontFamily: "'Bebas Neue', sans-serif",
-        fontSize: 25,
-      }}
-    >
+    <FormLabel sx={customStyles.formLabel}>
       💭💡What are your thoughts?
     </FormLabel>
   );
 
   const subsectionArea = (
-    <Stack spacing={4} sx={{ mt: 2 }}>
+    <Stack spacing={4} sx={customStyles.stack}>
       {blogDetails?.blog.map((data, index) => (
         <Box key={index}>
-          <Typography
-            sx={{
-              color: "#fe6c0a",
-              fontFamily: "'Bebas Neue', sans-serif",
-              fontSize: 24,
-            }}
-          >
+          <Typography sx={customStyles.subHeadingTypography}>
             {data.subHeading}
           </Typography>
 
           {data.paragraph.map((para, subIndex) => (
-            <Box
-              key={subIndex}
-              sx={{ color: "white", mt: subIndex === 0 ? 0 : 2 }}
-            >
+            <Box key={subIndex} sx={customStyles.paragraphBox}>
               {getText(para)}
             </Box>
           ))}
@@ -504,43 +393,31 @@ const SingleBlog = () => {
   );
 
   const singlePageContent = (
-    <Box sx={{ width: "75vw", flexWrap: "wrap" }}>
+    <Box sx={customStyles.singlePageBox}>
       <Box
         sx={{
-          width: "100%",
-          height: 350,
+          ...customStyles.coverImageBox,
           backgroundImage: `url(${blogDetails?.coverImage})`,
-          backgroundColor: "white",
-          backgroundPosition: "center",
-          display: "flex",
-          borderRadius: 2,
-          justifyContent: "center",
-          alignItems: "end",
         }}
       />
-      <Box sx={{ px: { xs: 0, lg: 20 } }}>
+
+      <Box sx={customStyles.headingBox}>
         {headingSection}
 
-        <Divider sx={{ backgroundColor: "#33393f" }} />
+        <Divider sx={customStyles.divider} />
 
         {shortDescriptionSection}
 
-        <Divider sx={{ backgroundColor: "#33393f" }} />
+        <Divider sx={customStyles.divider} />
 
-        <Typography sx={{ mt: 4, color: "white", fontSize: 16 }}>
+        <Typography sx={customStyles.singlePageTypography}>
           {blogDetails?.description}
         </Typography>
 
         {subsectionArea}
 
-        <Box sx={{ pt: 8, px: { sm: 0, lg: 8 } }}>
-          <Stack
-            sx={{
-              p: 4,
-              backgroundColor: "#80868c",
-              borderRadius: 2,
-            }}
-          >
+        <Box sx={customStyles.commentBox}>
+          <Stack sx={customStyles.singlePageStack}>
             {commentsHeaderSection}
 
             {commentFormSection}
@@ -594,8 +471,8 @@ const SingleBlog = () => {
   }, [blogId, reset]);
 
   return (
-    <Box sx={{ pt: 2 }}>
-      <Box sx={{ display: "flex", justifyContent: "center" }}>
+    <Box pt={2}>
+      <Box sx={customStyles.mainBox}>
         {loading ? <SingleBlogPageSkeleton /> : singlePageContent}
       </Box>
     </Box>
