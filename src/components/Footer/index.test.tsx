@@ -9,6 +9,6 @@ test("sample test", () => {
     </BrowserRouter>
   );
 
-  const ideasTest = screen.getByText("Yasas.EKaa");
+  const ideasTest = screen.getByText("Yasas.EK");
   expect(ideasTest).toBeInTheDocument();
 });
