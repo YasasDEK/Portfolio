@@ -1,6 +1,6 @@
 import HomePageHeader from "../HomePageHeader";
 import RecentBlogPosts from "../RecentBlogPosts";
-import RecentProjects from "../RecentProjects/RecentProjects";
+import RecentProjects from "../RecentProjects";
 
 const HomePageContent = () => (
   <>
