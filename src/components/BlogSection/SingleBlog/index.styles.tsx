@@ -159,4 +159,31 @@ export const customStyles = {
     color: "white",
     ml: 1,
   },
+  snippet: {
+    background: "grey",
+    px: 1,
+    my: 2,
+    py: 0.5,
+    borderLeft: 20,
+  },
+  link: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  linkButton: {
+    pl: 0,
+    textTransform: "none",
+    color: colorPalette.orangeColor,
+    "&:hover": {
+      opacity: 0.8,
+    },
+  },
+  icon: {
+    px: 2,
+  },
+  boldHeading: {
+    fontWeight: "bold",
+    mb: 1,
+    mt: 2,
+  },
 };
