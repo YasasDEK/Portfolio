@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import { getDoc, doc, updateDoc, arrayUnion } from "firebase/firestore";
 import { RefObject, useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { database } from "../../../config/firebase";
 import MessageIcon from "@mui/icons-material/Message";
 import { Controller, useForm } from "react-hook-form";
@@ -24,6 +24,7 @@ import CommentsDrawer from "../CommentsDrawer";
 import { colorPalette } from "../../Shared/pageHelpers";
 import { customStyles } from "./index.styles";
 import SingleBlogPageSkeleton from "../SingleBlogPageSkeleton/index.styles";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 interface Blog {
   blog: {
@@ -213,6 +214,34 @@ const SingleBlog = () => {
       const listText = para.replace(/<\/?list>/g, "");
 
       return <Typography sx={customStyles.list}>🚀 {listText}</Typography>;
+    }
+
+    if (para.includes("<snippet>")) {
+      const listText = para.replace(/<\/?snippet>/g, "");
+
+      return <Typography sx={customStyles.snippet}>{listText}</Typography>;
+    }
+
+    if (para.includes("<boldHeading>")) {
+      const listText = para.replace(/<\/?boldHeading>/g, "");
+
+      return <Typography sx={customStyles.boldHeading}>{listText}</Typography>;
+    }
+
+    if (para.includes("<link>")) {
+      const listText = para.replace(/<\/?link>/g, "");
+      const link = listText.split("=>")[0];
+      const text = listText.split("=>")[1];
+
+      return (
+        <Link style={customStyles.link} to={link}>
+          <Button sx={customStyles.linkButton}>
+            {text}
+
+            <ArrowForwardIcon sx={customStyles.icon} />
+          </Button>
+        </Link>
+      );
     }
 
     return <Typography>{para}</Typography>;
