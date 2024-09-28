@@ -69,7 +69,7 @@ const BlogSection = () => {
       setSelectedPage("Blogs");
 
       try {
-        const blogQuery = query(blogListRef, orderBy("blogDate"));
+        const blogQuery = query(blogListRef, orderBy("sortOrder", "desc"));
 
         const data = (await getDocs(blogQuery)).docs.map((doc) => ({
           id: doc.id,
