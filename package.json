@@ -69,7 +69,7 @@
       }
     },
     "git": {
-      "commitMessage": "chore: release ${version}",
+      "commitMessage": "",
       "tagName": "${version}"
     },
     "github": {
