@@ -1,6 +1,6 @@
 {
   "name": "portfolio",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -59,9 +59,12 @@
       "@release-it/conventional-changelog": {
         "preset": "conventionalcommits",
         "writerOpts": {
-          "groupBy": "type", 
-          "commitGroupsSort": "title", 
-          "commitsSort": ["scope", "subject"]
+          "groupBy": "type",
+          "commitGroupsSort": "title",
+          "commitsSort": [
+            "scope",
+            "subject"
+          ]
         }
       }
     },
