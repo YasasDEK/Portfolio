@@ -58,16 +58,26 @@
   "release-it": {
     "plugins": {
       "@release-it/conventional-changelog": {
-        "preset": "conventionalcommits"
+        "preset": "conventionalcommits",
+        "writerOpts": {
+          "groupBy": "type",
+          "commitGroupsSort": "title",
+          "commitsSort": [
+            "scope",
+            "subject"
+          ]
+        }
       }
     },
     "git": {
-      "commitMessage": "chore(release): v${version}",
-      "tagName": "v${version}",
-      "push": true
+      "commitMessage": "chore: release ${version}",
+      "tagName": "${version}"
     },
     "github": {
       "release": true
+    },
+    "npm": {
+      "publish": false
     }
   },
   "devDependencies": {
