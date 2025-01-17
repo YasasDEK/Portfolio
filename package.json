@@ -1,6 +1,6 @@
 {
   "name": "portfolio",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -61,7 +61,10 @@
         "writerOpts": {
           "groupBy": "type",
           "commitGroupsSort": "title",
-          "commitsSort": ["scope", "subject"]
+          "commitsSort": [
+            "scope",
+            "subject"
+          ]
         }
       }
     },
