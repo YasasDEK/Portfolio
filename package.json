@@ -80,6 +80,8 @@
     }
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.6.1",
+    "@commitlint/config-conventional": "^19.6.0",
     "@release-it/conventional-changelog": "github:release-it/conventional-changelog",
     "husky": "^9.1.7",
     "release-it": "^18.1.1"
