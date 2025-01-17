@@ -59,12 +59,9 @@
       "@release-it/conventional-changelog": {
         "preset": "conventionalcommits",
         "writerOpts": {
-          "groupBy": "type",
-          "commitGroupsSort": "title",
-          "commitsSort": [
-            "scope",
-            "subject"
-          ]
+          "groupBy": "type", 
+          "commitGroupsSort": "title", 
+          "commitsSort": ["scope", "subject"]
         }
       }
     },
