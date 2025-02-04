@@ -244,6 +244,21 @@ const SingleBlog = () => {
       );
     }
 
+    if (para.includes("<image>")) {
+      const imageURL = para.replace(/<\/?image>/g, "");
+      return (
+        <img
+          width="75%"
+          alt="code"
+          src={imageURL}
+          style={{
+            marginTop: 8,
+            marginBottom: 8,
+          }}
+        />
+      );
+    }
+
     return <Typography>{para}</Typography>;
   };
 
