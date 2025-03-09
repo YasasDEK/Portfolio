@@ -7,9 +7,33 @@ import {
   Button,
 } from "@mui/material";
 import { customStyles } from "./index.styles";
+import { storage } from "../../../config/firebase";
+import { getDownloadURL, ref } from "firebase/storage";
+import { useEffect, useState } from "react";
 
 const HomePageHeader = () => {
   const isSmallScreen = useMediaQuery("(max-width:280px)");
+
+  const [cvUrl, setCvUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+
+  useEffect(() => {
+    const fetchUrls = async () => {
+      try {
+        const [cvUrl, imageUrl] = await Promise.all([
+          getDownloadURL(ref(storage, "cv/Yasas Dilshan Ekanayaka - CV.pdf")),
+          getDownloadURL(ref(storage, "profile-picture/Yasas.png")),
+        ]);
+
+        setCvUrl(cvUrl);
+        setImageUrl(imageUrl);
+      } catch (error) {
+        console.error("Error fetching files:", error);
+      }
+    };
+
+    fetchUrls();
+  }, []);
 
   return (
     <Box sx={customStyles.mainBox}>
@@ -25,10 +49,7 @@ const HomePageHeader = () => {
           }}
         >
           <Box sx={customStyles.avatarBox}>
-            <Avatar
-              src={`${process.env.PUBLIC_URL}/images/profile-picture.png`}
-              sx={customStyles.avatar}
-            />
+            <Avatar src={imageUrl} sx={customStyles.avatar} />
           </Box>
 
           <Typography sx={customStyles.title}>Hello, I'm Yasas 👋</Typography>
@@ -38,11 +59,7 @@ const HomePageHeader = () => {
           </Typography>
 
           <Box display="flex" justifyContent="center">
-            <Button
-              sx={customStyles.topDownloadButton}
-              href={`${process.env.PUBLIC_URL}/pdf/Yasas Dilshan Ekanayaka - CV.pdf`}
-              download
-            >
+            <Button sx={customStyles.topDownloadButton} href={cvUrl} download>
               ⏬ Download Resume
             </Button>
           </Box>
@@ -70,7 +87,7 @@ const HomePageHeader = () => {
           <Box display="flex">
             <Button
               sx={customStyles.bottomDownloadButton}
-              href={`${process.env.PUBLIC_URL}/pdf/Yasas Dilshan Ekanayaka - CV.pdf`}
+              href={cvUrl}
               download
             >
               ⏬ Download Resume
@@ -79,10 +96,7 @@ const HomePageHeader = () => {
         </Stack>
 
         <Box height="85%">
-          <Avatar
-            src={`${process.env.PUBLIC_URL}/images/profile-picture.png`}
-            sx={customStyles.bottomAvatar}
-          />
+          <Avatar src={imageUrl} sx={customStyles.bottomAvatar} />
         </Box>
       </Stack>
     </Box>
