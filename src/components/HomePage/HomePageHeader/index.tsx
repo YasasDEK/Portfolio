@@ -46,7 +46,7 @@ const HomePageHeader = () => {
           objectFit: "cover",
           opacity: 0.4,
           pointerEvents: "none",
-          zIndex: -1,
+          zIndex: 0,
         }}
       >
         <source
