@@ -34,12 +34,16 @@ const HomePageHeader = () => {
         autoPlay
         muted
         loop
+        controls={false}
+        disablePictureInPicture
+        disableRemotePlayback
         style={{
           position: "absolute",
           width: "100%",
           height: "100%",
           objectFit: "cover",
           opacity: 0.4,
+          pointerEvents: "none",
         }}
       >
         <source
