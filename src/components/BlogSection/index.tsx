@@ -135,7 +135,7 @@ const BlogSection = () => {
     });
 
   return (
-    <Box pb={8} pt={2}>
+    <Box pb={8} pt={12}>
       <Box sx={customStyles.outerBox}>
         <Box sx={customStyles.innerBox}>
           <Typography sx={customStyles.postHeading}>Blog Posts</Typography>

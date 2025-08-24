@@ -58,6 +58,7 @@ export const customStyles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "end",
+    borderRadius: 1,
     "&:hover": {
       opacity: 0.8,
       height: 346,

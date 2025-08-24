@@ -11,10 +11,10 @@ export const customStyles = {
   },
   mainBox: { display: "flex", justifyContent: "center" },
   commentBox: {
-    pt: 8,
+    mt: 4,
     px: {
       sm: 0,
-      lg: 8,
+      lg: 12,
     },
   },
   headingTypography: {
@@ -42,7 +42,7 @@ export const customStyles = {
     backgroundColor: colorPalette.darkGrey,
   },
   headingBox: {
-    px: { xs: 0, lg: 20 },
+    px: { xs: 0, lg: 10 },
   },
   readTimeTypography: {
     color: "white",
@@ -128,6 +128,7 @@ export const customStyles = {
   },
 
   singlePageBox: {
+    pt: 16,
     width: "75vw",
     flexWrap: "wrap",
   },

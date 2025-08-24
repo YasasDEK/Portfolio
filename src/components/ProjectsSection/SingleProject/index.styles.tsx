@@ -158,7 +158,7 @@ export const customStyles = {
   },
   mainBox: {
     pb: 8,
-    pt: 2,
+    pt: 12,
   },
   innerBox: {
     display: "flex",

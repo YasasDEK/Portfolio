@@ -12,7 +12,7 @@ interface Props {
 
 const RecentPosts = ({ loading, heading, children, handleSeerMore }: Props) => {
   return (
-    <Box sx={{ mb: loading ? -5 : 8 }}>
+    <Box sx={{ mb: loading ? -5 : 8, mt: 4 }}>
       <Box sx={customStyles.outerBox}>
         <Box sx={customStyles.innerBox}>
           <Stack
