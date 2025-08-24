@@ -34,6 +34,8 @@ const HomePageHeader = () => {
         autoPlay
         muted
         loop
+        playsInline
+        preload="auto"
         controls={false}
         disablePictureInPicture
         disableRemotePlayback
@@ -44,6 +46,7 @@ const HomePageHeader = () => {
           objectFit: "cover",
           opacity: 0.4,
           pointerEvents: "none",
+          zIndex: -1,
         }}
       >
         <source
