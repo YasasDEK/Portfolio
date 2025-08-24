@@ -67,7 +67,7 @@ const Footer = () => {
         </Box>
 
         <Typography sx={customStyles.text}>
-          {`© 2023 - Yasas.EK | All right reserved`}
+          {`© 2025 - Yasas.EK | All right reserved`}
         </Typography>
       </Stack>
     </Box>

@@ -6,7 +6,7 @@ export const customStyles = {
     flexWrap: "wrap",
   },
   topSkeleton: {
-    my: -10,
+    my: -15,
     width: "100%",
     height: 550,
     backgroundRepeat: "no-repeat",

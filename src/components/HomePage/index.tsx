@@ -43,7 +43,7 @@ const HomePage = () => {
       <Box sx={customStyles.content}>
         <Header />
 
-        <Box sx={customStyles.contentBox}>
+        <Box>
           {selectedPage === "Home" && <HomePageContent />}
           {selectedPage === "Blogs" && <BlogSection />}
           {selectedPage === "SingleBlog" && <SingleBlog />}

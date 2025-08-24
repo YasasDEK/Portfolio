@@ -23,7 +23,7 @@ import MarkEmailReadIcon from "@mui/icons-material/MarkEmailRead";
 import CommentsDrawer from "../CommentsDrawer";
 import { colorPalette } from "../../Shared/pageHelpers";
 import { customStyles } from "./index.styles";
-import SingleBlogPageSkeleton from "../SingleBlogPageSkeleton/index.styles";
+import SingleBlogPageSkeleton from "../SingleBlogPageSkeleton";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 interface Blog {
@@ -515,10 +515,8 @@ const SingleBlog = () => {
   }, [blogId, reset]);
 
   return (
-    <Box pt={2}>
-      <Box sx={customStyles.mainBox}>
-        {loading ? <SingleBlogPageSkeleton /> : singlePageContent}
-      </Box>
+    <Box sx={customStyles.mainBox}>
+      {loading ? <SingleBlogPageSkeleton /> : singlePageContent}
     </Box>
   );
 };

@@ -46,6 +46,7 @@ export const customStyles = {
     backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     backgroundPosition: "center",
+    borderRadius: 1,
     "&:hover": {
       opacity: 0.8,
       height: 346,

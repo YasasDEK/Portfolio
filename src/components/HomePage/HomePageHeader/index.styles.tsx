@@ -4,10 +4,20 @@ export const customStyles = {
   mainBox: {
     display: "flex",
     justifyContent: "center",
-    mt: {
-      xs: 2,
-      md: 0,
-    },
+    alignItems: "center",
+    minHeight: "100vh",
+    width: "100%",
+    position: "relative",
+  },
+  contentOverlay: {
+    position: "relative",
+    zIndex: 0,
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    px: { xs: 2, md: 8, lg: 10, xl: 35 },
   },
   mainStack: {
     display: "flex",
@@ -16,14 +26,19 @@ export const customStyles = {
       md: "space-between",
     },
     alignItems: {
-      xs: "none",
-      md: "center",
+      xs: "flex-start",
+      md: "flex-start",
     },
-    width: "75vw",
+    width: "100%",
+    padding: {
+      xs: 2,
+      md: 4,
+    },
   },
   avatarBox: {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
     mb: 2,
   },
   avatar: {
@@ -43,45 +58,35 @@ export const customStyles = {
   title: {
     wordBreak: "break-word",
     fontSize: {
-      xs: 30,
-      sm: 50,
+      xs: 35,
+      sm: 65,
     },
     fontWeight: "bold",
     color: "white",
-    textAlign: {
-      xs: "center",
-      md: "initial",
-    },
+    textAlign: "left",
   },
   subTitle: {
     wordBreak: "break-word",
     fontSize: {
-      xs: 15,
-      md: 25,
+      xs: 20,
+      md: 30,
     },
     fontWeight: "bold",
     color: colorPalette.orangeColor,
     pb: 2,
-    textAlign: {
-      xs: "center",
-      md: "initial",
-    },
-    maxWidth: {
-      xs: "100%",
-      md: "75%",
-    },
+    textAlign: "left",
+    maxWidth: "100%",
   },
   description: {
+    display: "inline",
     wordBreak: "break-word",
-    textAlign: {
-      xs: "center",
-      md: "initial",
+    textAlign: "left",
+    fontSize: {
+      xs: 16,
+      md: 20,
     },
     color: "white",
-    maxWidth: {
-      xs: "100%",
-      md: "95%",
-    },
+    maxWidth: "100%",
   },
   topDownloadButton: {
     opacity: 0.8,
@@ -102,7 +107,17 @@ export const customStyles = {
     mt: 2,
     border: "1px solid white",
     borderRadius: 50,
-    display: { xs: "none", md: "flex" },
+  },
+  bottomButtonContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: { xs: 2, md: 4 },
+    zIndex: 1,
   },
   bottomAvatar: {
     position: "relative",
