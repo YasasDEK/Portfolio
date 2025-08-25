@@ -5,14 +5,13 @@ export const customStyles = {
     display: "flex",
     justifyContent: "center",
     width: "100%",
-    zIndex: 1,
   },
   headerBox: {
-    zIndex: 1,
     position: "fixed",
     width: "100%",
     top: 0,
     left: 0,
+    zIndex: 2,
   },
   contentBox: {
     width: "100%",
